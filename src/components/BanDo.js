@@ -3,8 +3,8 @@ import {LoadScript , GoogleMap , Marker} from "@react-google-maps/api";
 import { DrawingManager } from "@react-google-maps/api";
 import { InfoWindow } from '@react-google-maps/api';
 import { Circle } from '@react-google-maps/api'
-aaa
-var  position1 = [
+
+var  position1 = 
   {
     lat: 37.772,
     lng: -122.214
