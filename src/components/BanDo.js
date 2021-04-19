@@ -189,7 +189,7 @@ ad
         
       })
     }
-    thanh3
+    thanh4
     <DrawingManager
       onLoad={onLoad}
       onPolygonComplete={(polygon) => {
