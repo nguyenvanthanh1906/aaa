@@ -108,7 +108,7 @@ export default class BanDo extends Component {
     }
     
   }
-ad
+
  polygonsArray = []
   render() {
     return (
@@ -189,7 +189,7 @@ ad
         
       })
     }
-    dffdf
+   
     <DrawingManager
       onLoad={onLoad}
       onPolygonComplete={(polygon) => {
