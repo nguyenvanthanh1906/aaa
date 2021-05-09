@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
+import Cookies from 'universal-cookie';
+import { createHashHistory } from "history";
 
 export default class Menu extends Component {
+  logout = (event) => {
+    const cookies = new Cookies();
+    cookies.remove('access_token')
+    const history = createHashHistory();
+
+    history.go("/login");
+  }
     render() {
        
         return (
@@ -18,6 +27,7 @@ export default class Menu extends Component {
               <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Portfolio</a></li>
               <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a></li>
               <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a></li>
+              <li className="nav-item mx-0 mx-lg-1"><a className="btn nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onClick={this.logout}>Logout</a></li>
             </ul>
           </div>
         </div>

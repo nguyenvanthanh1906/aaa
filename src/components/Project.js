@@ -1,4 +1,12 @@
 import React, { Component } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+// Import Swiper styles
+import 'swiper/swiper.scss';
+import 'swiper/components/navigation/navigation.scss';
+import 'swiper/components/pagination/pagination.scss';
+import 'swiper/components/scrollbar/scrollbar.scss';
+SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 export default class Project extends Component {
     render() {
@@ -8,70 +16,35 @@ export default class Project extends Component {
                 <section className="page-section portfolio" id="about" style={{backgroundColor:'#1abc9c'}}>
         <div className="container">
           {/* Portfolio Section Heading*/}
-          <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Portfolio</h2>
+          <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Dự án nổi bật</h2>
           {/* Icon Divider*/}
           <div className="divider-custom">
             <div className="divider-custom-line" />
             <div className="divider-custom-icon"><i className="fas fa-star" /></div>
             <div className="divider-custom-line" />
           </div>
-          {/* Portfolio Grid Items*/}
-          <div className="row justify-content-center">
-            {/* Portfolio Item 1*/}
-            <div className="col-md-6 col-lg-4 mb-5">
-              <div className="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
-                <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div className="portfolio-item-caption-content text-center text-white"><i className="fas fa-plus fa-3x" /></div>
-                </div>
-                <img className="img-fluid" src="https://cellphones.com.vn/sforum/wp-content/uploads/2018/11/2-9.png" alt="" />
-              </div>
-            </div>
-            {/* Portfolio Item 2*/}
-            <div className="col-md-6 col-lg-4 mb-5">
-              <div className="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal2">
-                <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div className="portfolio-item-caption-content text-center text-white"><i className="fas fa-plus fa-3x" /></div>
-                </div>
-                <img className="img-fluid" src="https://cellphones.com.vn/sforum/wp-content/uploads/2018/11/2-9.png" alt="" />
-              </div>
-            </div>
-            {/* Portfolio Item 3*/}
-            <div className="col-md-6 col-lg-4 mb-5">
-              <div className="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal3">
-                <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div className="portfolio-item-caption-content text-center text-white"><i className="fas fa-plus fa-3x" /></div>
-                </div>
-                <img className="img-fluid" src="https://cellphones.com.vn/sforum/wp-content/uploads/2018/11/2-9.png" alt="" />
-              </div>
-            </div>
-            {/* Portfolio Item 4*/}
-            <div className="col-md-6 col-lg-4 mb-5 mb-lg-0">
-              <div className="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal4">
-                <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div className="portfolio-item-caption-content text-center text-white"><i className="fas fa-plus fa-3x" /></div>
-                </div>
-                <img className="img-fluid" src="https://cellphones.com.vn/sforum/wp-content/uploads/2018/11/2-9.png" alt="" />
-              </div>
-            </div>
-            {/* Portfolio Item 5*/}
-            <div className="col-md-6 col-lg-4 mb-5 mb-md-0">
-              <div className="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal5">
-                <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div className="portfolio-item-caption-content text-center text-white"><i className="fas fa-plus fa-3x" /></div>
-                </div>
-                <img className="img-fluid" src="https://cellphones.com.vn/sforum/wp-content/uploads/2018/11/2-9.png" alt="" />
-              </div>
-            </div>
-            {/* Portfolio Item 6*/}
-            <div className="col-md-6 col-lg-4">
-              <div className="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal6">
-                <div className="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                  <div className="portfolio-item-caption-content text-center text-white"><i className="fas fa-plus fa-3x" /></div>
-                </div>
-                <img className="img-fluid" src="https://cellphones.com.vn/sforum/wp-content/uploads/2018/11/2-9.png" alt="" />
-              </div>
-            </div>
-          </div>
+          
+          <Swiper
+      spaceBetween={20}
+      slidesPerView={4}
+      navigation
+      onSwiper={(swiper) => console.log(swiper)}
+      onSlideChange={() => console.log('slide change')}
+    >
+      <SwiperSlide><div ><a href="facebook.com"><img style={{borderRadius:'15px'}} src="https://file4.batdongsan.com.vn/crop/260x146/2020/09/17/hmcVYWuR/20200917165029-9600.jpg"/></a></div></SwiperSlide>
+      <SwiperSlide><div><a href="facebook.com"><img style={{borderRadius:'15px'}}src="https://file4.batdongsan.com.vn/crop/260x146/2020/09/17/hmcVYWuR/20200917165029-9600.jpg"/></a></div></SwiperSlide>
+
+      <SwiperSlide><div><a href="facebook.com"><img style={{borderRadius:'15px'}} src="https://file4.batdongsan.com.vn/crop/260x146/2020/09/17/hmcVYWuR/20200917165029-9600.jpg"/></a></div></SwiperSlide>
+
+      <SwiperSlide><div><a href="facebook.com"><img style={{borderRadius:'15px'}} src="https://file4.batdongsan.com.vn/crop/260x146/2020/09/17/hmcVYWuR/20200917165029-9600.jpg"/></a></div></SwiperSlide>
+
+      <SwiperSlide><div><a href="facebook.com"><img style={{borderRadius:'15px'}} src="https://file4.batdongsan.com.vn/crop/260x146/2020/09/17/hmcVYWuR/20200917165029-9600.jpg"/></a></div></SwiperSlide>
+
+      <SwiperSlide><div><a href="facebook.com"><img style={{borderRadius:'15px'}} src="https://file4.batdongsan.com.vn/crop/260x146/2020/09/17/hmcVYWuR/20200917165029-9600.jpg"/></a></div></SwiperSlide>
+
+
+    </Swiper>
+
         </div>
       </section>
 

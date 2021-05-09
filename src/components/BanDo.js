@@ -119,9 +119,9 @@ export default class BanDo extends Component {
         
       >
         
-        <div>
-          <button onClick={() => this.deletePoly()}>Delete</button>
-          <button onClick={() => this.getPosition()}>position</button>
+        <div style={{position:"relative",top:"75px",zIndex:"1"}}>
+          <button className="btn btn-danger" onClick={() => this.deletePoly()}>Delete</button>
+          <button className="btn btn-primary" onClick={() => this.getPosition()}>position</button>
        </div>
       <GoogleMap
         id=" ts-map-hero"
