@@ -19,8 +19,16 @@ import {
   Redirect,
   useRouteMatch
 } from "react-router-dom";
+import Register from './components/Register'
 
 export default class App extends Component {
+  
+  componentWillMount() {
+    if (localStorage.expires_at < new Date(Date.now())){
+      localStorage.clear()
+    }
+  }
+  
   
   
   render() {
@@ -28,17 +36,31 @@ export default class App extends Component {
     return ( 
       <Router>
         <Switch>
+        <Route
+    exact
+    path="/"
+    render={() => {
+        return (
+            
+            <Redirect to="/home" /> 
+            
+        )
+    }}
+/>
           <Route path="/home" render ={() => {
-            const cookies = new Cookies();
-            return cookies.get('access_token') ? <Main></Main> : <Redirect to="/login"></Redirect>
+            return localStorage.access_token ? <Main></Main> : <Redirect to="/login"></Redirect>
           }}>
             
           </Route>
           
           
           <Route  path="/login" render ={() => {
-           const cookies = new Cookies();
-           return cookies.get('access_token') ? <Redirect to="/home"></Redirect> : <Login></Login>
+           return localStorage.access_token ? <Redirect to="/home"></Redirect> : <Login></Login>
+          }}>
+            
+          </Route>
+          <Route  path="/register" render ={() => {
+           return localStorage.access_token ? <Redirect to="/home"></Redirect> : <Register></Register>
           }}>
             
           </Route>

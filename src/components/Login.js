@@ -8,6 +8,7 @@ import { createBrowserHistory as createHistory } from "history"
 import { createHashHistory } from "history";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import history from './history';
+import axios from 'axios';
 import {
  
   Redirect
@@ -28,49 +29,33 @@ export default class Login extends Component {
     }
 
     login = () => {
-      var myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-      
-      var raw = JSON.stringify({
-        "username": this.state.username,
-        "password": this.state.password
-      });
+      axios.post("http://d8842e38a456.ngrok.io/api/v1/auth/sign-in", {"username": this.state.username,"password": this.state.password})
+        .then(res => { 
+          if (res.status == 200) {
+            var str = res.data.expires_in
+            var time = ''
+            var time_type = ''
+            for (var i = 0; i < str.length; i++) {
+              if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+                time += str.charAt(i);
+            } else {
+              time_type += str.charAt(i);
+            }
+  
+            }
+            localStorage.access_token = res.data.access_token;
+            localStorage.user = this.state.username;
+            localStorage.role = res.data.role;
+            localStorage.expires_at = (Date.now()+new Date(Date.now() + moment.duration(time, time_type)));
+            localStorage.expires_type = time_type;
 
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-      };
-
-      fetch("https://8676cf173aad.ngrok.io/api/v1/auth/sign-in", requestOptions)
-        .then(response => {
-          console.log(response)
-          if (response.ok) {
-            return response.json()
-          }
-          throw Error(response.status)
-        })
-        .then(result => {
-          var str = result.expires_in
-          var time = ''
-          var time_type = ''
-          for (var i = 0; i < str.length; i++) {
-           
-            
-            if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
-              time += str.charAt(i);
+            const history = createHashHistory();
+            history.go("/home");
           } else {
-            time_type += str.charAt(i);
+            throw Error(res.status)
           }
-
-          }
-          document.cookie = ("access_token = " +result.access_token+"; expires = "+new Date(Date.now()+moment.duration(time, time_type))+"; path=/");
-          const history = createHashHistory();
-
-          history.go("/home");
-        
         })
+       
         .catch(error => {
           console.log('error', error)
           alert("fail")
@@ -84,7 +69,7 @@ export default class Login extends Component {
         <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
           <div className="card card-signin my-5">
             <div className="card-body">
-              <h5 className="card-title text-center">Sign In</h5>
+              <h5 className="card-title text-center">Register</h5>
               <form className="form-signin">
                 <div className="form-label-group">
                   <input type="text" id="inputUser" className="form-control" name="username" placeholder="username" required autofocus onChange={this.setParams}/>
@@ -99,6 +84,7 @@ export default class Login extends Component {
                   <label className="custom-control-label" htmlFor="customCheck1">Remember password</label>
                 </div>
                 <button className="btn btn-lg btn-primary btn-block text-uppercase" type="button" onClick={this.login}>Sign in</button>
+                <Link to="/register" className="btn btn-lg btn-primary btn-block text-uppercase">Register</Link>
               </form>
             </div>
           </div>
