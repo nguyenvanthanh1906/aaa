@@ -24,7 +24,7 @@ import Register from './components/Register'
 export default class App extends Component {
   
   componentWillMount() {
-    if (localStorage.expires_at < new Date(Date.now())){
+    if (localStorage.expires_at < (Date.now())){
       localStorage.clear()
     }
   }

@@ -46,7 +46,7 @@ export default class Login extends Component {
             localStorage.access_token = res.data.access_token;
             localStorage.user = this.state.username;
             localStorage.role = res.data.role;
-            localStorage.expires_at = (Date.now()+new Date(Date.now() + moment.duration(time, time_type)));
+            localStorage.expires_at = (Date.now() + moment.duration(time, time_type));
             localStorage.expires_type = time_type;
 
             const history = createHashHistory();

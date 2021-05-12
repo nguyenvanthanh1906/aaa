@@ -13,7 +13,7 @@ import {
  
   Redirect
 } from "react-router-dom";
-
+import { Button, Modal } from 'react-bootstrap';
 export default class UserProfile extends Component {
     constructor(props)
     {
@@ -31,10 +31,13 @@ export default class UserProfile extends Component {
            "new_password" : "",
            "confirmed_password" : "",
            "changePassword" : false,
-           "changeProfile" : false
-           
+           "changeProfile" : false,
+           "success" : false
         }
     }
+
+  
+   
     componentDidMount() {    
     axios.get("http://d8842e38a456.ngrok.io/api/v1/customers/" + localStorage.user, {
       headers: {
@@ -70,7 +73,9 @@ export default class UserProfile extends Component {
       }
     })
         .then(res => { 
-         
+         this.setState({
+           changePassword : false
+         })
         })
        
         .catch(error => {
@@ -87,7 +92,9 @@ export default class UserProfile extends Component {
         }
       })
           .then(res => { 
-            window.location.reload();
+           this.setState({
+             success : true
+           })
           })
          
           .catch(error => {
@@ -98,7 +105,28 @@ export default class UserProfile extends Component {
     setParams = (event) => {
       this.setState({[event.target.name] : event.target.value})
     }
-    changePasswordForm = () => {
+    handleClose = () => {
+      this.setState({success:false,changeProfile:false})
+      window.location.reload()
+      
+    }
+    showPassword = () => {
+      var x = document.getElementById("inputCurrentPassword");
+      var y = document.getElementById("inputPassword");
+      var z = document.getElementById("inputConfirm");
+
+      if (x.type === "password" && y.type === "password" && z.type === "password") {
+        x.type = "text";
+        y.type = "text";
+        z.type = "text";
+      } else {
+        x.type = "password";
+        y.type = "password";
+        z.type = "password";
+      }
+    }
+   
+     changePasswordForm = () => {
      
         if(this.state.changePassword){
         return (
@@ -121,6 +149,7 @@ export default class UserProfile extends Component {
                         <input type="password" id="inputConfirm" className="form-control" name="confirmed_password" placeholder="confirmpassword" required onChange={this.setParams}/>
                         <label htmlFor="inputConfirm">Confirm Password</label>
                       </div>
+                      <input type="checkbox" style={{marginBottom:'15px'}} onClick={this.showPassword}/> Show Password
                       <button className="btn btn-lg btn-primary btn-block text-uppercase" type="button" onClick={this.changePassword}>Submit</button>
                     </form>
                   </div>
@@ -157,7 +186,7 @@ export default class UserProfile extends Component {
                       <input type="text" id="inputEmail" className="form-control" name="new_email" placeholder="email" required onChange={this.setParams} defaultValue={this.state.email}/>
                       <label htmlFor="inputEmail">Email</label>
                     </div>
-                    <button className="btn btn-lg btn-primary btn-block text-uppercase" type="button" onClick={this.changeProfile}>Submit</button>
+                    <button className="btn btn-lg btn-primary btn-block text-uppercase" type="button" onClick={this.changeProfile} data-toggle="modal" data-target="#myModal">Submit</button>
 
                   </form>
                 </div>
@@ -200,21 +229,48 @@ export default class UserProfile extends Component {
         return (
           <div className="container">
             <div className="row">
-              <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
-                <div className="card card-signin my-5">
-                  <div className="card-body">
-                    <div>{this.state.full_name}</div>
-                    <div>{this.state.email}</div>
-                    <div>{this.state.address}</div>
-                    <div>{this.state.phone}</div>
+              <div className="col-sm-9 col-md-7 col-lg-8 mx-auto">
+                <div className="card card-signin my-3">
+                  <div className="card-body col-lg-12">
+                    <div className="row">
+                      <div className="col-md-3">
+                        <div style={{fontWeight : 'bold'}}>Full name</div>
+                        <div style={{fontWeight : 'bold'}}>Email</div>
+                        <div style={{fontWeight : 'bold'}}>Address</div>
+                        <div style={{fontWeight : 'bold'}}>Phone</div>                    
+                      </div>
+                      <div className="col-md-9">
+                        <div>{this.state.full_name}</div>
+                        <div>{this.state.email}</div>
+                        <div>{this.state.address}</div>
+                        <div>{this.state.phone}</div>
+                      </div>
+                    </div>
                   </div>
-                <button className="btn btn-lg btn-primary btn-block text-uppercase" onClick={this.isChangePassword}>Change Password</button>
-                <button className="btn btn-lg btn-primary btn-block text-uppercase" onClick={this.isChangeProfile}>Change Profile</button>
-                </div>
               </div>
+              <div className="row">
+                    <div className="col-md-6">
+                      <button className="btn btn-lg btn-primary btn-block text-uppercase" onClick={this.isChangePassword}>Change Password</button>
+                    </div>
+                    <div className="col-md-6">
+                        <button className="btn btn-lg btn-danger btn-block text-uppercase" onClick={this.isChangeProfile}>Change Profile</button>
+                    </div>
+                  </div>
+                </div>
             </div>
             { this.changePasswordForm()}
             {this.changeProfileForm()}
+            <Modal show={this.state.success} >
+        <Modal.Header >
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={this.handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
           </div>
         );
     }
