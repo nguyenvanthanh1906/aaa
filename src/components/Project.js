@@ -6,9 +6,29 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
+import instance from './instance';
+
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 export default class Project extends Component {
+  componentDidMount() {
+    instance.get("api/v1/properties", {
+      
+    })
+        .then(res => { 
+         
+        console.log(res.data)
+        
+        })
+       
+        .catch(error => {
+          console.log('error', error.res)
+          alert("fail")
+        }); 
+      }
+    
+  
+  
     render() {
         return (
             <div>

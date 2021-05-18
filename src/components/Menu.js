@@ -3,13 +3,13 @@ import Cookies from 'universal-cookie';
 import { createHashHistory } from "history";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import instance from './instance';
+
 export default class Menu extends Component {
   logout = (event) => {
     
-    axios.post("http://d8842e38a456.ngrok.io/api/v1/auth/sign-out",{}, {
-      headers: {
-        Authorization: "Bearer " + localStorage.access_token
-      }
+    instance.post("api/v1/auth/sign-out",{}, {
+     
     })
         .then(res => { 
           if (res.status == 200) {
@@ -40,10 +40,12 @@ export default class Menu extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarResponsive">
             <ul className="navbar-nav ml-auto">
-              <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Portfolio</a></li>
+              <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{pathname: "/home"}}  >Home</Link></li>
               <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">About</a></li>
               <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#contact">Contact</a></li>
-              <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/home/profile"  >Profile</Link></li>
+              <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{pathname: "/home/profile/"+localStorage.user}}  >Profile</Link></li>
+              <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{pathname: "/home/create"}}  >Create</Link></li>
+              <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{pathname: "/home/item/all/"+localStorage.user+"/10/1"}}  >Properties</Link></li>
               <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/login"  onClick={this.logout}>Logout</Link></li>
             </ul>
           </div>

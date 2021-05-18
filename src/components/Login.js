@@ -9,6 +9,7 @@ import { createHashHistory } from "history";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import history from './history';
 import axios from 'axios';
+import instance from './instance';
 import {
  
   Redirect
@@ -29,7 +30,7 @@ export default class Login extends Component {
     }
 
     login = () => {
-      axios.post("http://d8842e38a456.ngrok.io/api/v1/auth/sign-in", {"username": this.state.username,"password": this.state.password})
+      instance.post("api/v1/auth/sign-in", {"username": this.state.username,"password": this.state.password})
         .then(res => { 
           if (res.status == 200) {
             var str = res.data.expires_in

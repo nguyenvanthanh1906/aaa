@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { createHashHistory, createBrowserHistory } from "history";
+import instance from './instance';
+
 export default class Register extends Component {
     constructor(props)
     {
@@ -30,7 +32,7 @@ export default class Register extends Component {
         }
     }
     register = () => {
-        axios.post("http://d8842e38a456.ngrok.io/api/v1/auth/sign-up", {"username": this.state.username,"password": this.state.password})
+        instance.post("api/v1/auth/sign-up", {"username": this.state.username,"password": this.state.password})
           .then(res => { 
             if (res.status == 200) {
             

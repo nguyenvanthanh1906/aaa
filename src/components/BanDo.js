@@ -3,34 +3,16 @@ import {LoadScript , GoogleMap , Marker} from "@react-google-maps/api";
 import { DrawingManager } from "@react-google-maps/api";
 import { InfoWindow } from '@react-google-maps/api';
 import { Circle } from '@react-google-maps/api'
+import instance from './instance';
 
-var  position1 = [
-  {
-    lat: 37.772,
-    lng: -122.214
-  },
-  {
-    lat: 36.772,
-    lng: -122.214
-  },
-  {
-    lat: 35.772,
-    lng: -122.214
-  },
-  {
-    lat: 34.772,
-    lng: -122.214
-  },
-  {
-    lat: 33.772,
-    lng: -122.214
-  },
-  {
-    lat: 32.772,
-    lng: -122.214
-  }
-  
-]
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  Link,
+  useRouteMatch
+} from "react-router-dom";
 
 const containerStyle = {
   width: "100%",
@@ -38,45 +20,19 @@ const containerStyle = {
 };
 
 
-const onLoad = drawingManager => {
-    console.log(drawingManager)
-  }
-  
- 
-  function getPaths(polygon){
-    const coords = polygon.getPath().getArray().map(coord => {
-      return {
-        lat: coord.lat(),
-        lng: coord.lng()
-      }
-    });
-  
-    //console.log(JSON.stringify(coords, null, 1));
-   
-    
-  }
-  
+
   
 export default class BanDo extends Component {
   constructor(props){
     super(props)
     this.state = {
-     position : position1,
+     position : [],
      isOpen: [],
      polygon : "",
-     center : {lat: 35.772,lng: -122.214},
-     currentPosition : []
+     center : {lat: 16.060703728139814,lng: 108.21825236567476},
     }
   }  
-  getPosition = () => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.setState({
-        center : {lat:position.coords.latitude, lng:position.coords.longitude},
-        currentPosition : [{lat:position.coords.latitude, lng:position.coords.longitude}]
-      })
-     
-    });
-  }
+ 
   componentDidMount() {
     var list = []
     this.state.position.map((marker,i) => {
@@ -102,8 +58,8 @@ export default class BanDo extends Component {
     {
       this.state.polygon.setMap(null)
     this.setState({
-      position : position1,
-      polygon : null
+      polygon : null,
+      position : []
     })
     }
     
@@ -112,114 +68,91 @@ export default class BanDo extends Component {
  polygonsArray = []
   render() {
     return (
-     
       <LoadScript
         googleMapsApiKey="AIzaSyCLI3UgEHdIQE_jWywJ8fkGoPHXK_EzsK4"
         libraries={["drawing","geometry"]}
-        
       >
-        
-        <div style={{position:"relative",top:"75px",zIndex:"1"}}>
+        <div style={{position:"relative",top:"75px",zIndex:"1",width:'50px'}}>
           <button className="btn btn-danger" onClick={() => this.deletePoly()}>Delete</button>
-          <button className="btn btn-primary" onClick={() => this.getPosition()}>position</button>
        </div>
       <GoogleMap
         id=" ts-map-hero"
-       
         mapContainerStyle={containerStyle}
-        zoom={15}
+        zoom={16}
         center={this.state.center}
         //options={{ gestureHandling: "greedy"}}
   >
-    { 
-    this.state.currentPosition.map((current,i) => {
-      return (
-        <div>
-           <Marker
-        key={i}
-        id={i}
-        position={{lat: current.lat, lng: current.lng}}
-       >
-      </Marker>
-      <Circle
-      
-      
-      center={{lat: current.lat, lng: current.lng}}
-      
-      radius = {500}
-      options = {{strokeColor: '#FF0000',strokeOpacity: 0.5,fillColor: '#FF0000',fillOpacity: 0.1,}}
-      
-    
-      
-    ></Circle>
-        </div>
-       
-      
-      )
-    })
-  }
-  
-   
     {
       this.state.position.map((marker,i) => {
         return (
           <Marker
-          
-           
             key={i}
             id={i}
-            position={{lat: marker.lat, lng: marker.lng}}
+            position={{lat: Number(marker.details.coordinate.latitude), lng: Number(marker.details.coordinate.longitude)}}
             onClick={(ae) => this.handleMarkerClick(i)}
-            //icon={{
-            //  url:'./assets/svg/icon-house.svg'
-            //}}
+            icon={{
+              url:'/assets/svg/vietnam.png',
+              anchor: new window.google.maps.Point(5, 20),
+            }}
            >
-           
             {this.state.isOpen[i] && <InfoWindow 
              onCloseClick={(ae) => this.handleMarkerClick(i)}
-             
-            
              pixelOffset={{ width: 25, height: 25 }}
              zIndex={-1}
-            position={{lat: marker.lat, lng: marker.lng}}><div id='info'><a href="./item">facebook</a></div></InfoWindow>}
+            position={{lat: marker.latitude, lng: marker.longitude}}><div id='info'><Link to={{pathname: "/home/item/"+marker.slug}}>View</Link></div></InfoWindow>}
           </Marker>
-          
-        
         )
-        
       })
     }
-   
     <DrawingManager
-      onLoad={onLoad}
       onPolygonComplete={(polygon) => {
+        var polygonBounds = polygon.getPath();
+        var bounds = [];
+        for (var i = 0; i < polygonBounds.length; i++) {
+          var point = {
+            lat: polygonBounds.getAt(i).lat(),
+            lng: polygonBounds.getAt(i).lng()
+          };
+          bounds.push(point);
+        }
+        console.log(bounds);
+        var stringPolygon = ""
+        bounds.map((p,i) => {
+          stringPolygon += "&coordinates[]=" + p.lat +","+ p.lng
+          
+        })
+        stringPolygon = stringPolygon.slice(1,-1)
+        console.log(stringPolygon)
+        instance.get("/api/v1/properties?" + stringPolygon, {
+
+        })
+            .then(res => { var position1 = []
+             res.data.map((p) => {
+               position1.push(p)
+             })
+             this.setState({
+               position : position1
+             })
+              console.log(position1)
+            
+            })
+           
+            .catch(error => {
+              console.log('error', error.res)
+              alert("fail")
+            }); 
        if(this.state.polygon)
        {
          this.state.polygon.setMap(null)
          this.setState({
-           polygon : null
+           polygon : null,
+           position : []
          })
        }
-      
-        var position3 = []
-        position1.map((p) => {
-          if(window.google.maps.geometry.poly.containsLocation(new window.google.maps.LatLng(p.lat, p.lng),polygon))
-          {
-            position3.push(p)
-          }
-        })
-        
-      
         this.setState({
-          position : position3,
           polygon : polygon
         })
-        
-        
-      
-        
       }}
-     
       options={{
         drawingControl: true,
         drawingControlOptions: {

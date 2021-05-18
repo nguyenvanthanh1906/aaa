@@ -10,10 +10,11 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import history from './history';
 import axios from 'axios';
 import {
- 
   Redirect
 } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
+import instance from './instance';
+
 export default class UserProfile extends Component {
     constructor(props)
     {
@@ -39,10 +40,10 @@ export default class UserProfile extends Component {
   
    
     componentDidMount() {    
-    axios.get("http://d8842e38a456.ngrok.io/api/v1/customers/" + localStorage.user, {
-      headers: {
-        Authorization: "Bearer " + localStorage.access_token 
-      }
+      var username = this.props.username
+    if (localStorage.role == "customers") {  
+    instance.get("api/v1/customers/" + username, {
+
     })
         .then(res => { 
          
@@ -63,14 +64,36 @@ export default class UserProfile extends Component {
           console.log('error', error.res)
           alert("fail")
         }); 
+      } else {
+        instance.get("api/v1/companies/" + username, {
+      
+    })
+        .then(res => { 
+         
+           this.setState({
+               full_name : res.data.full_name,
+               phone : res.data.phone,
+               email : res.data.email,
+               address : res.data.address,
+               new_full_name : res.data.full_name,
+               new_phone : res.data.phone,
+               new_email : res.data.email,
+               new_address : res.data.address
+           })
+        
+        })
+       
+        .catch(error => {
+          console.log('error', error.res)
+          alert("fail")
+        }); 
+      }
     }
     
     changePassword = () => {
     
-    axios.post("http://d8842e38a456.ngrok.io/api/v1/users/change-password",{"old_password": this.state.old_password,"new_password": this.state.new_password,"confirmed_new_password": this.state.confirmed_password}, {
-      headers: {
-        Authorization: "Bearer " + localStorage.access_token 
-      }
+    instance.post("api/v1/users/change-password",{"old_password": this.state.old_password,"new_password": this.state.new_password,"confirmed_new_password": this.state.confirmed_password}, {
+     
     })
         .then(res => { 
          this.setState({
@@ -85,15 +108,14 @@ export default class UserProfile extends Component {
     }
 
     changeProfile = () => {
-    
-      axios.patch("http://d8842e38a456.ngrok.io/api/v1/customers/" + localStorage.user, {"full_name" : this.state.new_full_name, "email" : this.state.new_email, "phone" : this.state.new_phone, "address" : this.state.new_address}, {
-        headers: {
-          Authorization: "Bearer " + localStorage.access_token 
-        }
+    if (localStorage.role == "customers") {
+      instance.patch("api/v1/customers/" + localStorage.user, {"full_name" : this.state.new_full_name, "email" : this.state.new_email, "phone" : this.state.new_phone, "address" : this.state.new_address}, {
+       
       })
           .then(res => { 
            this.setState({
-             success : true
+             success : true,
+             changeProfile : !this.state.changeProfile
            })
           })
          
@@ -101,12 +123,28 @@ export default class UserProfile extends Component {
             console.log('error', error.response.message)
             alert("fail")
           }); 
+        } else {
+          instance.patch("api/v1/companies/" + localStorage.user, {"full_name" : this.state.new_full_name, "email" : this.state.new_email, "phone" : this.state.new_phone, "address" : this.state.new_address}, {
+           
+          })
+              .then(res => { 
+               this.setState({
+                 success : true,
+                 changeProfile : !this.state.changeProfile
+               })
+              })
+             
+              .catch(error => {
+                console.log('error', error.response.message)
+                alert("fail")
+              }); 
+        }    
     }
     setParams = (event) => {
       this.setState({[event.target.name] : event.target.value})
     }
     handleClose = () => {
-      this.setState({success:false,changeProfile:false})
+      this.setState({success:false})
       window.location.reload()
       
     }
@@ -225,6 +263,16 @@ export default class UserProfile extends Component {
         })
       }
     }
+    socialmedia = () => {
+      if(localStorage.role == "company") {
+        return (
+        <div> <div style={{fontWeight : 'bold'}}>Facebook</div>
+        <div style={{fontWeight : 'bold'}}>Instagram</div>
+        <div style={{fontWeight : 'bold'}}>Twiter</div></div>
+       
+        )
+    }
+  }
     render() {
         return (
           <div className="container">
@@ -237,7 +285,7 @@ export default class UserProfile extends Component {
                         <div style={{fontWeight : 'bold'}}>Full name</div>
                         <div style={{fontWeight : 'bold'}}>Email</div>
                         <div style={{fontWeight : 'bold'}}>Address</div>
-                        <div style={{fontWeight : 'bold'}}>Phone</div>                    
+                        <div style={{fontWeight : 'bold'}}>Phone</div>         
                       </div>
                       <div className="col-md-9">
                         <div>{this.state.full_name}</div>
@@ -262,9 +310,9 @@ export default class UserProfile extends Component {
             {this.changeProfileForm()}
             <Modal show={this.state.success} >
         <Modal.Header >
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>SUccessfully</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body></Modal.Body>
         <Modal.Footer>
         <Button variant="secondary" onClick={this.handleClose}>
             Close

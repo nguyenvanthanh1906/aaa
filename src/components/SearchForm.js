@@ -2,6 +2,14 @@ import React, { Component } from 'react'
 import cities from'D:/oC/qadaland/src/components/Cities.json'
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+    Link,
+    useRouteMatch
+  } from "react-router-dom";
 export default class SearchForm extends Component {
     constructor(props)
     {
@@ -12,10 +20,10 @@ export default class SearchForm extends Component {
             districtId : 0,
             districts : [],
             wards : [],
-            costMin:0,
-            costMax : 20,
-            SMin : 0,
-            SMax : 500
+            costMin:1,
+            costMax : 20001,
+            SMin : 1,
+            SMax : 501
            
         }
     }
@@ -95,6 +103,9 @@ inputCostMax = (event) => {
         costMax : event.target.value
     })
 }
+search = () => {
+
+}
     render() {
         return (
             <div style={{margin:'30px'}}>
@@ -102,7 +113,7 @@ inputCostMax = (event) => {
       <div className="container" style={{backgroundColor:'white',padding:'50px',borderRadius:'15px',boxShadow:'0 0.125rem 0.3125rem rgb(0 0 0 / 30%)'}}>
           <div className="row">
               <div className="col-lg-12">
-              <form>
+             
         <div className="form-row">
           <div className="col">
              <select className="form-control" name="city" onChange={(event) => this.changeCity(event)} >
@@ -174,9 +185,9 @@ inputCostMax = (event) => {
             <div className='row' style={{justifyContent:'center'}}>
                     <div className='col-lg-10' >
                     <Nouislider 
-                    range={{ min: 0, max: 20 }}
-                    start={[0, 20]} connect
-                    step = {1}
+                    range={{ min: 1, max: 20001 }}
+                    start={[1, 20001]} connect
+                    step = {100}
                     
                     onSlide = {(render, handle, value, un, percent) => this.onSlideCost(render, handle, value, un, percent)} />
                 </div>
@@ -200,8 +211,8 @@ inputCostMax = (event) => {
                 <div className='row' style={{justifyContent:'center'}}>
                     <div className='col-lg-10'>
                     <Nouislider 
-                    range={{ min: 0, max: 500 }}
-                    start={[0, 500]} connect
+                    range={{ min: 1, max: 501 }}
+                    start={[1, 501]} connect
                     step = {10}
                     
                     onSlide = {(render, handle, value, un, percent) => this.onSlideS(render, handle, value, un, percent)} />
@@ -213,12 +224,13 @@ inputCostMax = (event) => {
         
         </div>
         
-      </form>
+      
 
               </div>
         
           </div>
-      
+          <div className="">      <Link className="btn btn-primary float-right" to={{pathname: "/home/item/search/"+this.state.costMin+"/"+this.state.costMax+"/"+this.state.SMin+"/"+this.state.SMax+"/10/1"}} style={{margin:'10px'}}>Search</Link>
+</div>
       </div>
             </div>
         )
