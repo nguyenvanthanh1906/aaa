@@ -134,10 +134,11 @@
   .modal-content {
     width: 1000px!important;
     margin: auto!important;
+    text-align: center
   }
-
   .modal-dialog {
     max-width: 1000px!important;
+   
   }
   .nav-link {
     display: inline!important;

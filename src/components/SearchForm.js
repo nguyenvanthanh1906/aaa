@@ -23,8 +23,10 @@ export default class SearchForm extends Component {
             costMin:1,
             costMax : 20001,
             SMin : 1,
-            SMax : 501
-           
+            SMax : 501,
+            search : "",
+            sale_method : "all",
+            wardId : 0
         }
     }
    changeCity = (event) => {
@@ -64,12 +66,27 @@ export default class SearchForm extends Component {
        })
        if(event.target.value == 0)
        {
+           if(this.state.cityId){
+
+           }
            this.setState({
                 
                wards : []
            })
        }
    }
+   changeWard = (event) => {
+       this.state.wards.map((w) => {
+           if(w.id == event.target.value){
+                this.setState({
+         search : w.name,
+    })
+   
+           }
+       })
+   
+   
+}
   
   onSlideS = (render, handle, value, un, percent) => {
       this.setState({
@@ -103,13 +120,49 @@ inputCostMax = (event) => {
         costMax : event.target.value
     })
 }
-search = () => {
-
+search = (e) => {
+    this.setState({
+        search : e.target.value
+    })
 }
+searchButton = () => {
+    if(this.state.search.length >4){
+        return (
+            <Link className="btn btn-secondary" to={{pathname: "/home/items/min_price=all/max_price=all/min_area=all/max_are=all/sale_method=all/username=all/search="+this.state.search+"/per_page=10/page=1"}} ><i className="fa fa-search" /></Link>
+        )
+    } else {
+        return (
+            <div>
+             <Link className="btn btn-secondary disabled"  ><i className="fa fa-search" /></Link>
+            </div>
+        )
+    }
+}
+inputError = () =>{
+    if (this.state.search.length <4 && this.state.search != "") {
+        return (
+            <p style={{color:'red',display:'inline'}}>Input must be longer than 4</p>
+        )
+    }
+}
+setParams = (event) => {
+    this.setState({[event.target.name] : event.target.value})
+  }
     render() {
         return (
             <div style={{margin:'30px'}}>
-               
+                <div className="container" style={{marginBottom:'20px'}}>
+                <div className="input-group">
+        <input type="text" className="form-control" placeholder="Search this blog" onChange={this.search} />
+        <div className="input-group-append">
+        {this.searchButton()}
+         
+        </div>
+        
+      </div>
+      {this.inputError()}
+                </div>
+              
       <div className="container" style={{backgroundColor:'white',padding:'50px',borderRadius:'15px',boxShadow:'0 0.125rem 0.3125rem rgb(0 0 0 / 30%)'}}>
           <div className="row">
               <div className="col-lg-12">
@@ -144,7 +197,7 @@ search = () => {
              </select>
         </div>
         <div className="col">
-             <select className="form-control" >
+             <select className="form-control" onChange={(event) => this.changeWard(event)}>
              <option value={0}>Ward</option>
              {
                 this.state.wards.map((ward) => {
@@ -161,12 +214,11 @@ search = () => {
         <div className="form-row" >
             <div className="col-4" style={{paddingTop:'40px'}}>
                 
-               <select className="form-control">
-               <option value={0}>Căn hộ</option>
-               <option value={0}>phòng trọ</option>
-               <option value={0}>cao ốc</option>
-               <option value={0}>Đất</option>
-               </select>
+            <select name="sale_method"  className="form-control" onChange={this.setParams}>
+          <option value="">Sale method</option>
+        <option value="for_sale">Sale</option>
+        <option value="for_rent">Rent</option>
+      </select>
             </div>
             <div className="col-lg-4" style={{paddingTop:'20px'}}>
             <div className='container' style={{justifyContent:'center',fontFamily:'inherit',width:'85%',marginBottom:'5px'}}>
@@ -229,7 +281,8 @@ search = () => {
               </div>
         
           </div>
-          <div className="">      <Link className="btn btn-primary float-right" to={{pathname: "/home/item/search/"+this.state.costMin+"/"+this.state.costMax+"/"+this.state.SMin+"/"+this.state.SMax+"/10/1"}} style={{margin:'10px'}}>Search</Link>
+          <div className="">      
+          <Link className="btn btn-primary float-right" to={{pathname: "/home/items/min_price="+this.state.costMin+"/max_price="+this.state.costMax+"/min_area="+this.state.SMin+"/max_are="+this.state.SMax+"/sale_method="+this.state.sale_method+"/username=all/search="+this.state.search+"/per_page=10/page=1/"}} style={{margin:'10px'}}>Search</Link>
 </div>
       </div>
             </div>

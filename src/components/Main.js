@@ -21,6 +21,8 @@ import UserProfile from './UserProfile';
 import CreateProperty from './CreateProperty';
 import EditProperty from './EditProperty';
 import AllProperty from './AllProperty';
+import CreateMedia from './CreateMedia';
+import Media from './Media';
 class Main extends Component {
 
 
@@ -50,8 +52,17 @@ class Main extends Component {
                         </div>
                       </div>
                     </div>
-                  </section>     
-                  <Project></Project>           
+                  </section>  
+                  <section className="page-section portfolio" id="about" style={{backgroundColor:'#1abc9c'}}>
+                    <Project></Project> 
+                    </section>   
+                  <section className="page-section portfolio" id="about" >
+                    <Project sale_method="for_sale"></Project> 
+                  </section>   
+                  <section className="page-section portfolio" id="about" style={{backgroundColor:'#1abc9c'}}>
+                    <Project sale_method="for_rent"></Project> 
+                  </section>   
+                           
                 </Route>
                 <Route   path="/home/map" render ={() => {
                 return localStorage.access_token ?
@@ -78,77 +89,16 @@ class Main extends Component {
           }}>
                   
                 </Route >    
-                <Route exact path="/home/item/all/:username/:per_page/:page" render ={(match) => {
+               
+               
+                
+                <Route exact path="/home/items/min_price=:min_price/max_price=:max_price/min_area=:min_area/max_are=:max_area/sale_method=:sale_method/username=:username/search=:search/per_page=:per_page/page=:page" render ={(match) => {
                   return localStorage.access_token ?
                   <section className="page-section " id="portfolio">
                   <div className="container-fluid">
                     <div className="row ">
                       <div className="col-lg-12">
-                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">All My property</h2>
-                        <div className="divider-custom">
-                            <div className="divider-custom-line"></div>
-                            <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
-                            <div className="divider-custom-line"></div>
-                        </div>
-                      </div>
-                     <AllProperty page = {match.match.params.page} per_page={match.match.params.per_page} username={match.match.params.username}></AllProperty>
-                    
-                    </div>
-                  </div>
-                </section> 
-                  : <Redirect to="/login"></Redirect>
-                }}>
-                </Route > 
-                 
-                <Route exact path="/home/item/all/:per_page/:page" render ={(match) => {
-                  return localStorage.access_token ?
-                  <section className="page-section " id="portfolio">
-                  <div className="container-fluid">
-                    <div className="row ">
-                      <div className="col-lg-12">
-                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">All properties</h2>
-                        <div className="divider-custom">
-                            <div className="divider-custom-line"></div>
-                            <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
-                            <div className="divider-custom-line"></div>
-                        </div>
-                      </div>
-                     <AllProperty page = {match.match.params.page} per_page={match.match.params.per_page} ></AllProperty>
-                    
-                    </div>
-                  </div>
-                </section> 
-                  : <Redirect to="/login"></Redirect>
-                }}>
-                </Route > 
-                <Route exact path="/home/item/sale-method/:sale_method" render ={(match) => {
-                  return localStorage.access_token ?
-                  <section className="page-section " id="portfolio">
-                  <div className="container-fluid">
-                    <div className="row ">
-                      <div className="col-lg-12">
-                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">{match.match.params.sale_method} properties</h2>
-                        <div className="divider-custom">
-                            <div className="divider-custom-line"></div>
-                            <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
-                            <div className="divider-custom-line"></div>
-                        </div>
-                      </div>
-                     <AllProperty page = {match.match.params.page} per_page={match.match.params.per_page} sale_method={match.match.params.sale_method}></AllProperty>
-                    
-                    </div>
-                  </div>
-                </section> 
-                  : <Redirect to="/login"></Redirect>
-                }}>
-                </Route > 
-                <Route exact path="/home/item/search/:min_price/:max_price/:min_area/:max_area/:per_page/:page" render ={(match) => {
-                  return localStorage.access_token ?
-                  <section className="page-section " id="portfolio">
-                  <div className="container-fluid">
-                    <div className="row ">
-                      <div className="col-lg-12">
-                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">{match.match.params.sale_method} properties</h2>
+                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Result</h2>
                         <div className="divider-custom">
                             <div className="divider-custom-line"></div>
                             <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
@@ -161,6 +111,62 @@ class Main extends Component {
                      max_price={match.match.params.max_price}
                      min_area={match.match.params.min_area}
                      max_area={match.match.params.max_area}
+                     sale_method={match.match.params.sale_method} 
+                     username={match.match.params.username}
+                     search={match.match.params.search}
+                     ></AllProperty>
+                    
+                    </div>
+                  </div>
+                </section> 
+                  : <Redirect to="/login"></Redirect>
+                }}>
+                </Route > 
+                <Route exact path="/home/items/min_price=:min_price/max_price=:max_price/min_area=:min_area/max_are=:max_area/sale_method=:sale_method/username=:username/search=/per_page=:per_page/page=:page" render ={(match) => {
+                  return localStorage.access_token ?
+                  <section className="page-section " id="portfolio">
+                  <div className="container-fluid">
+                    <div className="row ">
+                      <div className="col-lg-12">
+                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Result</h2>
+                        <div className="divider-custom">
+                            <div className="divider-custom-line"></div>
+                            <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
+                            <div className="divider-custom-line"></div>
+                        </div>
+                      </div>
+                     <AllProperty page = {match.match.params.page} 
+                     per_page={match.match.params.per_page} 
+                     min_price={match.match.params.min_price} 
+                     max_price={match.match.params.max_price}
+                     min_area={match.match.params.min_area}
+                     max_area={match.match.params.max_area}
+                     sale_method={match.match.params.sale_method} 
+                     username={match.match.params.username}
+                     ></AllProperty>
+                    
+                    </div>
+                  </div>
+                </section> 
+                  : <Redirect to="/login"></Redirect>
+                }}>
+                </Route > 
+                <Route exact path="/home/item/search/:search/:per_page/:page" render ={(match) => {
+                  return localStorage.access_token ?
+                  <section className="page-section " id="portfolio">
+                  <div className="container-fluid">
+                    <div className="row ">
+                      <div className="col-lg-12">
+                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Key word : "{match.match.params.search}"</h2>
+                        <div className="divider-custom">
+                            <div className="divider-custom-line"></div>
+                            <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
+                            <div className="divider-custom-line"></div>
+                        </div>
+                      </div>
+                     <AllProperty page = {match.match.params.page} 
+                     per_page={match.match.params.per_page} 
+                    search={match.match.params.search}
                      ></AllProperty>
                     
                     </div>
@@ -225,7 +231,7 @@ class Main extends Component {
           }}>
                   
                 </Route >    
-                <Route   path="/home/create" render ={() => {
+                <Route  exact path="/home/create" render ={() => {
                 return localStorage.access_token ?
                
               <section className="page-section " id="portfolio">
@@ -241,6 +247,56 @@ class Main extends Component {
                         </div>
                         <div className="col-lg-12">
                           <CreateProperty></CreateProperty> 
+                        </div>
+                      </div>
+                    </div>
+                  </section> 
+             : <Redirect to="/login"></Redirect>
+            
+          }}>
+                  
+                </Route >    
+                <Route exact  path="/home/media/create" render ={() => {
+                return localStorage.access_token ?
+               
+              <section className="page-section " id="portfolio">
+                    <div className="container-fluid">
+                      <div className="row ">
+                        <div className="col-lg-12">
+                          <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Create media</h2>
+                          <div className="divider-custom">
+                              <div className="divider-custom-line"></div>
+                              <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
+                              <div className="divider-custom-line"></div>
+                          </div>
+                        </div>
+                        <div className="col-lg-12">
+                          <CreateMedia></CreateMedia>
+                        </div>
+                      </div>
+                    </div>
+                  </section> 
+             : <Redirect to="/login"></Redirect>
+            
+          }}>
+                  
+                </Route >    
+                <Route exact  path="/home/media" render ={() => {
+                return localStorage.access_token ?
+               
+              <section className="page-section " id="portfolio">
+                    <div className="container-fluid">
+                      <div className="row ">
+                        <div className="col-lg-12">
+                          <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Media</h2>
+                          <div className="divider-custom">
+                              <div className="divider-custom-line"></div>
+                              <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
+                              <div className="divider-custom-line"></div>
+                          </div>
+                        </div>
+                        <div className="col-lg-12">
+                          <Media></Media>
                         </div>
                       </div>
                     </div>

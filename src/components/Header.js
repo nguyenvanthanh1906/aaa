@@ -18,7 +18,7 @@ export default class Header extends Component {
             <div className="divider-custom-line" style={{backgroundColor:'#2c3e50'}}/>
           </div>
           {/* Masthead Subheading*/}
-          <p className="masthead-subheading font-weight-light mb-0" style={{color:'#2c3e50'}} >Graphic Artist - Web Designer - Illustrator</p>
+          <p className="masthead-subheading font-weight-light mb-0" style={{color:'#2c3e50'}} >Be your better home</p>
         </div>
       </header>
             </div>
