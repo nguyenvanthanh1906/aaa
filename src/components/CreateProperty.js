@@ -56,7 +56,16 @@ export default class CreateProperty extends Component {
    
     
   }
+  
+  componentWillMount() {
+    localStorage.removeItem('media')
+  }
+  componentDidUpdate(prevProps, prevState) {
+    
+  }
+  
   create = () => {
+    if(this.state.files.length > 0){
     const formData = new FormData();
     for (let i = 0; i < this.state.files.length; i++) {
         formData.append(`files`, this.state.files[i])
@@ -76,7 +85,7 @@ export default class CreateProperty extends Component {
      instance.post("api/v1/properties", {
       "sale_method": this.state.sale_method,
       "details": {
-          "media" : slug,
+          "media" : slug.concat(this.state.media),
           "title": this.state.title,
           "description": this.state.description,
           "price":Number(this.state.price),
@@ -103,7 +112,32 @@ export default class CreateProperty extends Component {
       console.log('error', error)
       this.setState({fail :true})
     });
-    
+  } else {
+    instance.post("api/v1/properties", {
+      "sale_method": this.state.sale_method,
+      "details": {
+          "media" : this.state.media,
+          "title": this.state.title,
+          "description": this.state.description,
+          "price":Number(this.state.price),
+          "coordinate": {
+              "latitude": this.state.lat,
+              "longitude": this.state.lng          
+            }
+      }
+    }, { method: 'POST'})
+    .then(res1 => { 
+     console.log(res1.data)
+     
+     this.setState({success :true})
+   
+    })
+   
+    .catch(error1 => {
+      console.log('error', error1)
+      this.setState({fail :true})
+    });
+  }
 }
 setParams = (event) => {
   this.setState({[event.target.name] : event.target.value})
@@ -115,15 +149,21 @@ upload=()=>{
   this.setState({
     upload : !this.state.upload
   })
+  if(localStorage.media) {
+  this.setState({
+    media : localStorage.media.split(',')
+  })
+  
+  } else {
+    this.setState({
+      media : []
+    })
+  }
 }
-choiceMedia = () => {
-  if(localStorage.media){
-      var media = localStorage.media;
-      media = media.split(',')
-      
-      media.map((m)=>{
+choiceMedia = (m) => {
+  
           return (
-              <div className="" style={{textAlign:'center',backgroundColor:'white', margin:'26px',width:'140px',height:'140px',objectFit:'cover'}} >
+              <div className="a" style={{borderRadius : '20px',width:"auto",objectFit: 'cover',height:'100px', aspectRatio: '1.77', margin :'5px'}} >
             
 
 
@@ -132,8 +172,7 @@ choiceMedia = () => {
             <br></br>
           </div>   
           )
-      })
-    }
+     
 }
     render() {
         return (
@@ -158,15 +197,25 @@ choiceMedia = () => {
           Upload from my media
           </button> 
           <input type="file" id="files" name="files" multiple onChange={this.setData} ></input>
-
+          <div style={{display:'flex'}}>
+          {
+            
+              this.state.media.map((m )=> {
+                return (
+                  this.choiceMedia(m)
+                )
+                })
+          }
+          </div>
           </div>
                    
            <div>
+           
          <Modal show={this.state.upload} >
                                
                                 
                                <ModalMedia ></ModalMedia>
-                               {this.choiceMedia()}
+                               
 
                                <Modal.Footer>
                                <Button onClick={this.upload}>
