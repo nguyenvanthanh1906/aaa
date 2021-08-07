@@ -102,7 +102,7 @@ edit = () => {
       })
      
       .catch(error => {
-        console.log('error', error.response.data.message)
+        
         alert("fail")
       }); 
 }

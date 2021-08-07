@@ -7,6 +7,7 @@ import {
     Link,
     useRouteMatch
   } from "react-router-dom";
+  import baseURL from './baseURL'
 export default class CardProperty extends Component {
     constructor(props){
         super(props)
@@ -65,16 +66,17 @@ export default class CardProperty extends Component {
         }
         
     }
-    render() {
+    render() {console.log(this.props.property.media)
         return (
             this.state.deleted_at
             ?
             <div className="col-md-12 " style={{margin:'20px 0 20px 0', opacity:'0.4'}}>
                <div className="row ">
-                    <div className="col-md-4">
+                    <div className="col-md-4" style={{width: '100%', height:'200px'}}>
                     <img
-                    src="https://mdbootstrap.com/img/new/standard/nature/111.jpg"
+                    src={this.props.property.media[0] ? baseURL+"api/v1/media/"+this.props.property.media[0].slug : 'https://noithatfuhome.com/wp-content/uploads/2018/08/06-3.jpg'}
                     class="img-fluid"
+                    style={{borderRadius : '20px',width:"auto",objectFit: 'cover',height:'100%', aspectRatio: '1.77'}}
                     />
                     </div>
                     <div className="col-md-8">
@@ -89,10 +91,11 @@ export default class CardProperty extends Component {
             :
             <div className="col-md-12 " style={{margin:'20px 0 20px 0'}}>
                <div className="row ">
-                    <div className="col-md-4">
+                    <div className="col-md-4" style={{width: '100%', height:'200px'}}>
                     <img
-                    src="https://mdbootstrap.com/img/new/standard/nature/111.jpg"
+                     src={this.props.property.media[0] ? baseURL+"api/v1/media/"+this.props.property.media[0].slug : 'https://noithatfuhome.com/wp-content/uploads/2018/08/06-3.jpg'}
                     class="img-fluid"
+                    style={{borderRadius : '20px',width:"auto",objectFit: 'cover',height:'100%', aspectRatio: '1.77'}}
                     />
                     </div>
                     <div className="col-md-8">

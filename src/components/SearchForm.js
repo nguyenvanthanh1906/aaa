@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import cities from'D:/oC/qadaland/src/components/Cities.json'
+import cities from'./Cities.json'
 import Nouislider from "nouislider-react";
 import "nouislider/distribute/nouislider.css";
 import {

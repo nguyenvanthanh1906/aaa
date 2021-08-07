@@ -6,6 +6,7 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
+import baseURL from './baseURL'
 import instance from './instance';
 import {
   BrowserRouter as Router,
@@ -30,7 +31,7 @@ export default class Project extends Component {
   
      if(this.props.sale_method) {
         params = {
-            
+          sort_by: '-created_at',
             sale_method : this.props.sale_method,
             per_page : 10,
             page : 1
@@ -40,13 +41,14 @@ export default class Project extends Component {
    
     if(!this.props.sale_method ) {
         params = {
-           
+          sort_by: '-created_at',
             per_page : 10,
             page : 1
         }
         console.log(params)
     }
     instance.get("api/v1/properties", {
+      sort_by: '-created_at',
         params : params
     })
         .then(res => { 
@@ -137,7 +139,10 @@ export default class Project extends Component {
       {
         this.state.all_properties.map((p) => {
           return (
-            <SwiperSlide><div ><Link to={{pathname: "/home/item/"+p.slug}}><img style={{borderRadius:'15px'}} src="https://file4.batdongsan.com.vn/crop/260x146/2020/09/17/hmcVYWuR/20200917165029-9600.jpg"/></Link></div></SwiperSlide>
+            <SwiperSlide><div style={{width: '100%', height:'140px'}}><Link to={{pathname: "/home/item/"+p.slug}}><img style={{borderRadius:'15px'}} 
+            src={p.details.media[0] ? baseURL+"api/v1/media/"+p.details.media[0].slug : 'https://noithatfuhome.com/wp-content/uploads/2018/08/06-3.jpg'}
+            style={{borderRadius : '20px',width:"auto",objectFit: 'cover',height:'100%', aspectRatio: '1.77'}}
+            /></Link></div></SwiperSlide>
           )
         })
       }

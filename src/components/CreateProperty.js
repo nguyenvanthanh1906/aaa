@@ -11,6 +11,7 @@ import { Button, Modal } from 'react-bootstrap';
 import Media from './Media';
 import ModalMedia from './ModalMedia';
 import baseURL from './baseURL';
+import { createHashHistory, createBrowserHistory } from "history";
 
 const containerStyle = {
   width: "100%",
@@ -72,6 +73,10 @@ export default class CreateProperty extends Component {
     }, { method: 'POST'})
     .then(res1 => { 
      console.log(res1.data)
+     const history = createBrowserHistory();
+    
+    history.replace("/home");
+    history.go()
     })
    
     .catch(error1 => {
