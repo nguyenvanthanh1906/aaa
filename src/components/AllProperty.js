@@ -3,10 +3,7 @@ import CardProperty from './CardProperty';
 import LazyLoad from 'react-lazyload';
 import instance from './instance';
 import ButtonPage from './ButtonPage';
-import Pagination from "react-js-pagination";
-import ReactPaginate from 'react-paginate';
-import { IsEmpty, PickBy ,OmitBy,IsNull} from 'react-lodash'
-import { isEmpty, isNil, isNull, omit, omitBy, pickBy } from 'lodash-es';
+
 export default class AllProperty extends Component {
     constructor(props){
         super(props)
