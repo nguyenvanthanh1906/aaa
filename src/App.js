@@ -20,6 +20,7 @@ import {
   useRouteMatch
 } from "react-router-dom";
 import Register from './components/Register'
+import NotFound from './components/NotFound'
 
 export default class App extends Component {
   
@@ -61,6 +62,11 @@ export default class App extends Component {
           </Route>
           <Route  path="/register" render ={() => {
            return localStorage.access_token ? <Redirect to="/home"></Redirect> : <Register></Register>
+          }}>
+            
+          </Route>
+          <Route  default render ={() => {
+           return <NotFound></NotFound>
           }}>
             
           </Route>

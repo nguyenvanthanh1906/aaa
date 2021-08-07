@@ -182,7 +182,7 @@ class Main extends Component {
                 }}>
                 </Route >  
                 <Route path="/home/item/edit/:property" render ={(match) => {
-                  return localStorage.access_token ?
+                  return (localStorage.access_token&&localStorage.role=='company') ?
                   <section className="page-section " id="portfolio">
                   <div className="container-fluid">
                     <div className="row ">
@@ -232,7 +232,7 @@ class Main extends Component {
                   
                 </Route >    
                 <Route  exact path="/home/create" render ={() => {
-                return localStorage.access_token ?
+                return (localStorage.access_token&&localStorage.role=='company') ?
                
               <section className="page-section " id="portfolio">
                     <div className="container-fluid">
@@ -257,7 +257,7 @@ class Main extends Component {
                   
                 </Route >    
                 <Route exact  path="/home/media/create" render ={() => {
-                return localStorage.access_token ?
+                return (localStorage.access_token&&localStorage.role=='company') ?
                
               <section className="page-section " id="portfolio">
                     <div className="container-fluid">
@@ -282,7 +282,7 @@ class Main extends Component {
                   
                 </Route >    
                 <Route exact  path="/home/media" render ={() => {
-                return localStorage.access_token ?
+                return (localStorage.access_token&&localStorage.role=='company') ?
                
               <section className="page-section " id="portfolio">
                     <div className="container-fluid">

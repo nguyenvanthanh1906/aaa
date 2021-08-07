@@ -38,6 +38,7 @@ export default class SearchForm extends Component {
             if(city.id == event.target.value)
             {
                 this.setState({
+                    search : city.name,
                     districts : city.districts
                 })
             }
@@ -54,12 +55,13 @@ export default class SearchForm extends Component {
    }
    changeDistrict = (event) => {
        this.setState({
-            districtId : event.target.value
+            districtId : event.target.value,
        })
        this.state.districts.map((district) => {
            if(district.id == event.target.value)
            {
                this.setState({
+                search : district.name,
                    wards : district.wards
                })
            }
@@ -70,7 +72,7 @@ export default class SearchForm extends Component {
 
            }
            this.setState({
-                
+            
                wards : []
            })
        }

@@ -4,7 +4,7 @@ import { DrawingManager } from "@react-google-maps/api";
 import { InfoWindow } from '@react-google-maps/api';
 import { Circle } from '@react-google-maps/api'
 import instance from './instance';
-
+import baseURL from './baseURL'
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,10 +13,11 @@ import {
   Link,
   useRouteMatch
 } from "react-router-dom";
+import LeftList from "./LeftList";
 
 const containerStyle = {
   width: "100%",
-  height: "600px"
+  height: "650px",
 };
 
 
@@ -68,6 +69,8 @@ export default class BanDo extends Component {
  polygonsArray = []
   render() {
     return (
+      <div className="row">
+      <div className="col-9">
       <LoadScript
         googleMapsApiKey="AIzaSyCLI3UgEHdIQE_jWywJ8fkGoPHXK_EzsK4"
         libraries={["drawing","geometry"]}
@@ -99,7 +102,14 @@ export default class BanDo extends Component {
              onCloseClick={(ae) => this.handleMarkerClick(i)}
              pixelOffset={{ width: 25, height: 25 }}
              zIndex={-1}
-            position={{lat: marker.latitude, lng: marker.longitude}}><div id='info'><Link to={{pathname: "/home/item/"+marker.slug}}>View</Link></div></InfoWindow>}
+            position={{lat: marker.latitude, lng: marker.longitude}}><div id='info' style={{width: '125px', height:'110px'}}><Link to={{pathname: "/home/item/"+marker.slug}}>
+              <img
+                     src={marker.details.media[0] ? baseURL+"api/v1/media/"+marker.details.media[0].slug : 'https://noithatfuhome.com/wp-content/uploads/2018/08/06-3.jpg'}
+                    class="img-fluid"
+                    style={{borderRadius : '5px',width:"auto",objectFit: 'cover',height:'70px', aspectRatio: '1.77'}}
+                    />
+                    <p>{marker.details.title}</p>
+              </Link></div></InfoWindow>}
           </Marker>
         )
       })
@@ -166,7 +176,11 @@ export default class BanDo extends Component {
   </GoogleMap>
        
       </LoadScript>
-     
+      </div>
+      <div className="col-3">
+<LeftList items={this.state.position}></LeftList>
+      </div>
+      </div>
     )
   }
 }

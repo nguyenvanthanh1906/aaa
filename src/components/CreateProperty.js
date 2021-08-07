@@ -30,9 +30,12 @@ export default class CreateProperty extends Component {
           title : "",
           lat : "",
           lng : "",
+          price : "",
           files: {},
           upload : false,
-          media : []
+          media : [],
+          fail : false,
+          success : false
         };
       }
     changeDescription  = (editorState) => {
@@ -41,7 +44,18 @@ export default class CreateProperty extends Component {
       contentState : content,
     });
   };
-
+  handleClose = () => {
+    this.setState({success:false})
+    const history = createBrowserHistory();
+    history.replace("/home");
+    history.go()
+    
+  }
+  handleClose2 = () => {
+    this.setState({fail:false})
+   
+    
+  }
   create = () => {
     const formData = new FormData();
     for (let i = 0; i < this.state.files.length; i++) {
@@ -65,6 +79,7 @@ export default class CreateProperty extends Component {
           "media" : slug,
           "title": this.state.title,
           "description": this.state.description,
+          "price":Number(this.state.price),
           "coordinate": {
               "latitude": this.state.lat,
               "longitude": this.state.lng          
@@ -73,21 +88,20 @@ export default class CreateProperty extends Component {
     }, { method: 'POST'})
     .then(res1 => { 
      console.log(res1.data)
-     const history = createBrowserHistory();
-    
-    history.replace("/home");
-    history.go()
+     
+     this.setState({success :true})
+   
     })
    
     .catch(error1 => {
       console.log('error', error1)
-      alert("fail")
+      this.setState({fail :true})
     });
     })
    
     .catch(error => {
       console.log('error', error)
-      alert("fail")
+      this.setState({fail :true})
     });
     
 }
@@ -128,6 +142,10 @@ choiceMedia = () => {
         <div className="form-group">
           <label style={{fontWeight : 'bold'}}>Title</label>
           <input type="text" className="form-control" name="title" onChange={this.setParams}/>
+        </div>
+        <div className="form-group">
+          <label style={{fontWeight : 'bold'}}>Price</label>
+          <input type="text" className="form-control" name="price" onChange={this.setParams}/>
         </div>
         <div className="form-group">
         <label style={{fontWeight : 'bold'}}>Media</label>
@@ -208,8 +226,28 @@ choiceMedia = () => {
         </div>
         
         <button  className="btn btn-primary" onClick={this.create}>Submit</button>
-      
-    
+        <Modal show={this.state.success} >
+        <Modal.Header >
+          <Modal.Title>Successfully</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><img   src="/assets/svg/success.png" alt="" /></Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={this.handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+        <Modal show={this.state.fail} >
+        <Modal.Header >
+          <Modal.Title>Fail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><img   src="/assets/svg/fail.png" alt="" /></Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={this.handleClose2}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
             </div>
         );
     }

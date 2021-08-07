@@ -49,8 +49,13 @@ export default class Menu extends Component {
               {(localStorage.role === 'company') 
               ?<li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{pathname: "/home/create"}}  >Create</Link></li>
               :<p></p>}
-              <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{pathname: "/home/media"}}  >Media</Link></li>
-              <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onClick={this.properties} style={{cursor:'pointer'}}  >Properties</a></li>
+              {(localStorage.role === 'company') 
+              ?<li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{pathname: "/home/media"}}  >Media</Link></li>
+              :<p></p>}
+               {(localStorage.role === 'company') 
+              ?<li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onClick={this.properties} style={{cursor:'pointer'}}  >Properties</a></li>
+              :<p></p>}
+              
               <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/login"  onClick={this.logout}>Logout</Link></li>
             </ul>
           </div>

@@ -33,7 +33,8 @@ export default class UserProfile extends Component {
            "confirmed_password" : "",
            "changePassword" : false,
            "changeProfile" : false,
-           "success" : false
+           "success" : false,
+           "fail" : false,
         }
     }
 
@@ -97,13 +98,17 @@ export default class UserProfile extends Component {
     })
         .then(res => { 
          this.setState({
+          success : true,
            changePassword : false
          })
         })
        
         .catch(error => {
           console.log('error', error)
-          alert("fail")
+          this.setState({
+            fail : true,
+             
+           })
         }); 
     }
 
@@ -121,7 +126,10 @@ export default class UserProfile extends Component {
          
           .catch(error => {
             console.log('error', error.response.message)
-            alert("fail")
+            this.setState({
+              fail : true,
+               
+             })
           }); 
         } else {
           instance.patch("api/v1/companies/" + localStorage.user, {"full_name" : this.state.new_full_name, "email" : this.state.new_email, "phone" : this.state.new_phone, "address" : this.state.new_address}, {
@@ -135,7 +143,10 @@ export default class UserProfile extends Component {
               })
              
               .catch(error => {
-                alert("fail")
+                this.setState({
+                  fail : true,
+                   
+                 })
               }); 
         }    
     }
@@ -144,6 +155,11 @@ export default class UserProfile extends Component {
     }
     handleClose = () => {
       this.setState({success:false})
+      window.location.reload()
+      
+    }
+    handleClose2 = () => {
+      this.setState({fail:false})
       window.location.reload()
       
     }
@@ -309,11 +325,22 @@ export default class UserProfile extends Component {
             {this.changeProfileForm()}
             <Modal show={this.state.success} >
         <Modal.Header >
-          <Modal.Title>SUccessfully</Modal.Title>
+          <Modal.Title>Change User's profile successfully</Modal.Title>
         </Modal.Header>
-        <Modal.Body></Modal.Body>
+        <Modal.Body><img   src="/assets/svg/success.png" alt="" /></Modal.Body>
         <Modal.Footer>
         <Button variant="secondary" onClick={this.handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={this.state.fail} >
+        <Modal.Header >
+          <Modal.Title>Fail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><img   src="/assets/svg/fail.png" alt="" /></Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={this.handleClose2}>
             Close
           </Button>
         </Modal.Footer>
