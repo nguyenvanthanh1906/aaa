@@ -4,6 +4,7 @@ import instance from './instance';
 import Parser from 'html-react-parser';
 import { Button, Modal } from 'react-bootstrap';
 import baseURL from './baseURL'
+import { createHashHistory } from "history";
 const containerStyle = {
     width: "100%",
     height: "400px"
@@ -36,25 +37,28 @@ console.log(baseURL)
     instance.get("api/v1/properties/" + property, {
 
     })
-        .then(res => { console.log(res.data.company)
-          
-          this.setState({
-            title : res.data.details.title,
-            description : res.data.details.description,
-            lat:res.data.details.coordinate.latitude, 
-            lng:res.data.details.coordinate.longitude,
-            company_address : res.data.company?.address,
-            company_email : res.data.company?.email,
-            company_phone : res.data.company?.phone,
-            company_full_name : res.data.company?.full_name,
-            user : res.data.company?.user,
-            media : res.data.details.media
-          })
+        .then(res => { console.log(res.status)
+         
+            this.setState({
+              title : res.data.details.title,
+              description : res.data.details.description,
+              lat:res.data.details.coordinate.latitude, 
+              lng:res.data.details.coordinate.longitude,
+              company_address : res.data.company?.address,
+              company_email : res.data.company?.email,
+              company_phone : res.data.company?.phone,
+              company_full_name : res.data.company?.full_name,
+              user : res.data.company?.user,
+              media : res.data.details.media
+            })
+            
+         
+         
         })
        
         .catch(error => {
           console.log('error', error)
-          alert("fail")
+          window.location.replace("/Not Found");
         }); 
   }
     showProfileCompany = () => {
@@ -244,9 +248,11 @@ console.log(baseURL)
   </GoogleMap>
        
       </LoadScript>
+      
       : <p></p>
           }
-         
+         <br></br>
+         <br></br>
       </div> <div className='col-lg-3 vertical-menu' style={{}}>
         <div>
           <h5><i class="fas fa-map-marker-alt" style={{fontSize:'2.5rem',marginRight:'10px',color:'#1abc9c'}}></i>Bất động sản lân cận</h5>

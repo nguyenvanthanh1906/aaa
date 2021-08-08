@@ -23,6 +23,7 @@ import EditProperty from './EditProperty';
 import AllProperty from './AllProperty';
 import CreateMedia from './CreateMedia';
 import Media from './Media';
+import NotFound from './NotFound';
 class Main extends Component {
 
 
@@ -304,7 +305,7 @@ class Main extends Component {
              : <Redirect to="/login"></Redirect>
             
           }}>
-                  
+                
                 </Route >    
                 <div>
                     <MessengerCustomerChat

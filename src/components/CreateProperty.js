@@ -187,11 +187,7 @@ choiceMedia = (m) => {
           <input type="text" className="form-control" name="price" onChange={this.setParams}/>
         </div>
         <div className="form-group">
-        <label style={{fontWeight : 'bold'}}>Media</label>
-
-        
-        
-         
+        <label style={{fontWeight : 'bold'}}>Media</label>         
           <div>
             <button onClick={()=>{this.setState({upload: !this.state.upload})}}>
           Upload from my media
@@ -207,24 +203,17 @@ choiceMedia = (m) => {
                 })
           }
           </div>
-          </div>
-                   
+          </div>     
            <div>
-           
-         <Modal show={this.state.upload} >
-                               
-                                
-                               <ModalMedia ></ModalMedia>
-                               
-
-                               <Modal.Footer>
-                               <Button onClick={this.upload}>
-                                   Close
-                               </Button>
-                               </Modal.Footer>
-                           </Modal>
+         <Modal show={this.state.upload} >             
+          <ModalMedia ></ModalMedia>
+          <Modal.Footer>
+          <Button onClick={this.upload}>
+              Close
+          </Button>
+          </Modal.Footer>
+      </Modal>
         </div>
-        
           <br /><br />
         </div>
         

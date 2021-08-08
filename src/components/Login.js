@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import history from './history';
 import axios from 'axios';
 import instance from './instance';
+import {createPusher, getPusher} from '../pusher';
 import {
  
   Redirect
@@ -36,6 +37,8 @@ export default class Login extends Component {
             var str = res.data.expires_in
             var time = ''
             var time_type = ''
+
+
             for (var i = 0; i < str.length; i++) {
               if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
                 time += str.charAt(i);
@@ -50,8 +53,14 @@ export default class Login extends Component {
             localStorage.expires_at = (Date.now() + moment.duration(time, time_type));
             localStorage.expires_type = time_type;
 
+            instance.defaults.headers.common['Authorization'] = "Bearer " + res.data.access_token
+
+            createPusher()
+
+            console.log(getPusher());
+
             const history = createHashHistory();
-            history.go("/home");
+            history.push("/");
           } else {
             throw Error(res.status)
           }
