@@ -86,7 +86,7 @@ export default class CreateProperty extends Component {
      instance.post("api/v1/properties", {
       "sale_method": this.state.sale_method,
       "details": {
-          "area" : this.state.area,      
+          "area" : Number(this.state.area),      
           "media" : slug.concat(this.state.media),
           "title": this.state.title,
           "description": this.state.description,
