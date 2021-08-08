@@ -36,8 +36,8 @@ export default class EditProperty extends Component {
           "fail" : false,
           "success" : false,
           files: {},
-          area: "",
-          price : ""
+          "area": "",
+          "price" : ""
         };
       }
       componentWillMount() {
@@ -117,7 +117,9 @@ handleClose2 = () => {
                 lat:res.data.details.coordinate.latitude, 
                 lng:res.data.details.coordinate.longitude,
                 media:media,
-                sale_method : res.data.sale_method
+                sale_method : res.data.sale_method,
+                area: res.data.details.area,
+                price : res.data.details.price
               })
                instance.get("api/v1/property-sale-methods" , {
     
@@ -239,11 +241,11 @@ edit = () => {
         </div>
         <div className="form-group">
           <label style={{fontWeight : 'bold'}}>Price (triệu đồng)</label>
-          <input type="text" className="form-control" name="price" onChange={this.setParams}/>
+          <input type="text" className="form-control" name="price" onChange={this.setParams}  defaultValue={this.state.price}/>
         </div>
         <div className="form-group">
           <label style={{fontWeight : 'bold'}}>Area</label>
-          <input type="text" className="form-control" name="area" onChange={this.setParams}/>
+          <input type="text" className="form-control" name="area" onChange={this.setParams}  defaultValue={this.state.area}/>
         </div>
         <div className="form-group">
         <label style={{fontWeight : 'bold'}}>Media</label>         
