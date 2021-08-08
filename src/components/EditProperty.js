@@ -10,7 +10,6 @@ import Select from 'react-select'
 import ModalMedia from './ModalMedia';
 import baseURL from './baseURL';
 import { Button, Modal } from 'react-bootstrap';
-import { indexOf } from 'lodash-es';
 import { createHashHistory, createBrowserHistory } from "history";
 const containerStyle = {
     width: "100%",
