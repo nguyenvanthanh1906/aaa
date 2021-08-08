@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { createHashHistory, createBrowserHistory } from "history";
 import instance from './instance';
+import { Button, Modal } from 'react-bootstrap';
 
 export default class Register extends Component {
     constructor(props)
@@ -10,11 +11,25 @@ export default class Register extends Component {
         this.state = {
            "username" : "",
            "password" : "",
-           "confirm" : ""
+           "confirm" : "",
+           fail : false,
+           success : false
         }
     }
     setParams = (event) => {
         this.setState({[event.target.name] : event.target.value})
+    }
+    handleClose = () => {
+      this.setState({success:false})
+      const history = createBrowserHistory();
+      history.replace("/login");
+      history.go()
+      
+    }
+    handleClose2 = () => {
+      this.setState({fail:false})
+     
+      
     }
     buttonRegister = () => {
         if(this.state.username != "" && this.state.password != "" && this.state.password == this.state.confirm) {
@@ -36,10 +51,9 @@ export default class Register extends Component {
           .then(res => { 
             if (res.status == 200) {
             
-              const history = createBrowserHistory();
-    
-              history.replace("/login");
-              history.go()
+             
+              this.setState({success:true})
+              
               
             } else {
                 console.log(res.data.message)
@@ -49,7 +63,7 @@ export default class Register extends Component {
          
           .catch(error => {
             console.log(error.response.data.message[0])
-            
+            this.setState({fail:true})
           });
       }
     render() {
@@ -79,6 +93,28 @@ export default class Register extends Component {
                 </div>
               </div>
             </div>
+            <Modal show={this.state.success} >
+        <Modal.Header >
+          <Modal.Title>Successfully</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><img   src="/assets/svg/success.png" alt="" /></Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={this.handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+        <Modal show={this.state.fail} >
+        <Modal.Header >
+          <Modal.Title>Fail</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><img   src="/assets/svg/fail.png" alt="" /></Modal.Body>
+        <Modal.Footer>
+        <Button variant="secondary" onClick={this.handleClose2}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
           </div>
         );
     }
