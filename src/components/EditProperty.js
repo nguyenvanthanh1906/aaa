@@ -36,6 +36,8 @@ export default class EditProperty extends Component {
           "fail" : false,
           "success" : false,
           files: {},
+          area: "",
+          price : ""
         };
       }
       componentWillMount() {
@@ -171,7 +173,9 @@ edit = () => {
   instance.patch("/api/v1/properties/" + this.props.property, {
     "sale_method" : this.state.sale_method,
     "details": {
+      "area" : Number(this.state.area), 
       "media" : slug.concat(this.state.media),
+      "price":Number(this.state.price),
       "title": this.state.title,
       "description": this.state.description,
       "coordinate": {
@@ -200,7 +204,9 @@ edit = () => {
       instance.patch("/api/v1/properties/" + this.props.property, {
         "sale_method" : this.state.sale_method,
         "details": {
+          "area" : Number(this.state.area), 
           "media" : this.state.media,
+          "price":Number(this.state.price),
           "title": this.state.title,
           "description": this.state.description,
           "coordinate": {
@@ -230,6 +236,14 @@ edit = () => {
         <div className="form-group">
           <label style={{fontWeight : 'bold'}}>Title</label>
           <input type="text" className="form-control" name="title" onChange={this.setParams} defaultValue={this.state.title}/>
+        </div>
+        <div className="form-group">
+          <label style={{fontWeight : 'bold'}}>Price (triệu đồng)</label>
+          <input type="text" className="form-control" name="price" onChange={this.setParams}/>
+        </div>
+        <div className="form-group">
+          <label style={{fontWeight : 'bold'}}>Area</label>
+          <input type="text" className="form-control" name="area" onChange={this.setParams}/>
         </div>
         <div className="form-group">
         <label style={{fontWeight : 'bold'}}>Media</label>         

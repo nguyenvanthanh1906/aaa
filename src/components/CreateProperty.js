@@ -35,7 +35,8 @@ export default class CreateProperty extends Component {
           upload : false,
           media : [],
           fail : false,
-          success : false
+          success : false,
+          area : ""
         };
       }
     changeDescription  = (editorState) => {
@@ -85,6 +86,7 @@ export default class CreateProperty extends Component {
      instance.post("api/v1/properties", {
       "sale_method": this.state.sale_method,
       "details": {
+          "area" : this.state.area,      
           "media" : slug.concat(this.state.media),
           "title": this.state.title,
           "description": this.state.description,
@@ -116,6 +118,7 @@ export default class CreateProperty extends Component {
     instance.post("api/v1/properties", {
       "sale_method": this.state.sale_method,
       "details": {
+          "area" : this.state.area, 
           "media" : this.state.media,
           "title": this.state.title,
           "description": this.state.description,
@@ -183,8 +186,12 @@ choiceMedia = (m) => {
           <input type="text" className="form-control" name="title" onChange={this.setParams}/>
         </div>
         <div className="form-group">
-          <label style={{fontWeight : 'bold'}}>Price</label>
+          <label style={{fontWeight : 'bold'}}>Price (triệu đồng)</label>
           <input type="text" className="form-control" name="price" onChange={this.setParams}/>
+        </div>
+        <div className="form-group">
+          <label style={{fontWeight : 'bold'}}>Area</label>
+          <input type="text" className="form-control" name="area" onChange={this.setParams}/>
         </div>
         <div className="form-group">
         <label style={{fontWeight : 'bold'}}>Media</label>         
