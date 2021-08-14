@@ -8,6 +8,8 @@ import {
     useRouteMatch
   } from "react-router-dom";
   import baseURL from './baseURL'
+  import { Button } from '@material-ui/core';
+
 export default class CardProperty extends Component {
     constructor(props){
         super(props)
@@ -40,17 +42,17 @@ export default class CardProperty extends Component {
            if(this.props.company.user == localStorage.user) {
                if(this.state.deleted_at) {
                 return (<div className="">
-                <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger disabled" to={{pathname: "/home/item/"+this.props.slug}}  ><button className="btn btn-primary">View</button></Link>
-             <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger disabled" to={{pathname: "/home/item/edit/"+this.props.slug}}  ><button className="btn btn-success">Edit</button></Link>
-            <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger disabled" onClick={(slug) => {this.delete(this.props.slug)}}  ><button className="btn btn-danger">Delete</button></Link>
+                <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger disabled" to={{pathname: "/home/item/"+this.props.slug}}  ><Button variant="contained" color="success">View</Button></Link>
+             <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger disabled" to={{pathname: "/home/item/edit/"+this.props.slug}}  ><Button variant="contained" color="primary">Edit</Button></Link>
+            <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger disabled" onClick={(slug) => {this.delete(this.props.slug)}}  ><Button variant="contained" color="error">Delete</Button></Link>
         </div>
            
         )
                } else {
             return (<div className="">
-                    <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger " to={{pathname: "/home/item/"+this.props.slug}}  ><button className="btn btn-primary">View</button></Link>
-                 <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger " to={{pathname: "/home/item/edit/"+this.props.slug}}  ><button className="btn btn-success">Edit</button></Link>
-                <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onClick={(slug) => {this.delete(this.props.slug)}}  ><button className="btn btn-danger">Delete</button></Link>
+                    <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger " to={{pathname: "/home/item/"+this.props.slug}}  ><Button variant="contained" color="success">View</Button></Link>
+                 <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger " to={{pathname: "/home/item/edit/"+this.props.slug}}  ><Button variant="contained" color="primary">Edit</Button></Link>
+                <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onClick={(slug) => {this.delete(this.props.slug)}}  ><Button variant="contained" color="error">Delete</Button></Link>
             </div>
                
             )}

@@ -11,6 +11,9 @@ import ModalMedia from './ModalMedia';
 import baseURL from './baseURL';
 import { Button, Modal } from 'react-bootstrap';
 import { createHashHistory, createBrowserHistory } from "history";
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ButtonMaterial from '@material-ui/core/Button';
+import './search.css';
 const containerStyle = {
     width: "100%",
     height: "600px"
@@ -119,7 +122,8 @@ handleClose2 = () => {
                 media:media,
                 sale_method : res.data.sale_method,
                 area: res.data.details.area,
-                price : res.data.details.price
+                price : res.data.details.price,
+                address :res.data.details.address
               })
                instance.get("api/v1/property-sale-methods" , {
     
@@ -175,6 +179,7 @@ edit = () => {
   instance.patch("/api/v1/properties/" + this.props.property, {
     "sale_method" : this.state.sale_method,
     "details": {
+      "address" :this.state.address,
       "area" : Number(this.state.area), 
       "media" : slug.concat(this.state.media),
       "price":Number(this.state.price),
@@ -206,6 +211,7 @@ edit = () => {
       instance.patch("/api/v1/properties/" + this.props.property, {
         "sale_method" : this.state.sale_method,
         "details": {
+          "address" :this.state.address,
           "area" : Number(this.state.area), 
           "media" : this.state.media,
           "price":Number(this.state.price),
@@ -233,68 +239,96 @@ edit = () => {
     render() {
     
         return (
-            <div>
-                          
-        <div className="form-group">
-          <label style={{fontWeight : 'bold'}}>Title</label>
-          <input type="text" className="form-control" name="title" onChange={this.setParams} defaultValue={this.state.title}/>
-        </div>
-        <div className="form-group">
-          <label style={{fontWeight : 'bold'}}>Price (triệu đồng)</label>
-          <input type="text" className="form-control" name="price" onChange={this.setParams}  defaultValue={this.state.price}/>
-        </div>
-        <div className="form-group">
-          <label style={{fontWeight : 'bold'}}>Area</label>
-          <input type="text" className="form-control" name="area" onChange={this.setParams}  defaultValue={this.state.area}/>
-        </div>
-        <div className="form-group">
-        <label style={{fontWeight : 'bold'}}>Media</label>         
-          <div>
-            <button onClick={()=>{this.setState({upload: !this.state.upload})}}>
-          Upload from my media
-          </button> 
-          <input type="file" id="files" name="files" multiple onChange={this.setData} ></input>
-          <div style={{display:'flex'}}>
-          {
-            
-              this.state.media.map((m )=> {
-                return (
-                  this.choiceMedia(m)
-                )
-                })
-          }
-          </div>
-          </div>     
-           <div>
-         <Modal show={this.state.upload} >             
-          <ModalMedia ></ModalMedia>
-          <Modal.Footer>
-          <Button onClick={this.upload}>
-              Close
-          </Button>
-          </Modal.Footer>
-      </Modal>
-        </div>
+            <div className='container' style={{border: '0',borderRadius: '1rem', boxShadow: '0 0.7rem 1rem 0 rgba(0, 0, 0, 0.4)',backgroundColor:'white',paddingTop:'20px',paddingBottom:'20px' }}>
+
+
+
+            <div className="row">
+                <div className='col-6'>
+                      <div className="form-group">
+                <label style={{fontWeight : 'bold'}}>Title</label>
+                <input type="text" className="form-control" name="title" onChange={this.setParams} defaultValue={this.state.title}/>
+              </div>
+              <div className="form-group">
+                <label style={{fontWeight : 'bold'}}>Price (triệu đồng)</label>
+                <input type="text" className="form-control" name="price" onChange={this.setParams}  defaultValue={this.state.price}/>
+              </div>
+                    
+                     <div className="form-group">
+                    <label style={{fontWeight : 'bold'}}>Media</label>         
+                      <div>
+                      <ButtonGroup disableElevation variant="contained" color="primary" >
+                        <ButtonMaterial onClick={()=>{this.setState({upload: !this.state.upload})}} style={{outline:'none', background:'none', color:'blue'}}>Upload From my media</ButtonMaterial>
+                        <ButtonMaterial style={{outline:'none', background:'none', color:'red'}}><label for="upload-photo" style={{marginBottom:'0px'}}>Upload From my computer</label></ButtonMaterial>
+                      </ButtonGroup>
+                      <input type="file" id="files" name="files" id="upload-photo" multiple onChange={this.setData} ></input>
+                      <div style={{display:'flex'}}>
+                      {
+                        
+                          this.state.media.map((m )=> {
+                            return (
+                              this.choiceMedia(m)
+                            )
+                            })
+                      }
+                      </div>
+                      </div>     
+                      <div>
+                    <Modal show={this.state.upload} >             
+                      <ModalMedia ></ModalMedia>
+                      <Modal.Footer>
+                      <Button onClick={this.upload}>
+                          Close
+                      </Button>
+                      </Modal.Footer>
+                  </Modal>
+                    </div>
           <br /><br />
         </div>
-        <div className="form-group">
-          <label style={{fontWeight : 'bold'}}>Sale method</label>
-          {
-            this.state.all_sale_method
-            ? <Select 
-            options={this.state.all_sale_method}
-            defaultValue={{value: this.state.sale_method, label: this.state.sale_method}}
-            isSelected = {true}
-            isSearchable = {false}
-            selectValue = {{value: this.state.sale_method, label: this.state.sale_method}}
-            onChange =  {this.changeSaleMethod }
-            />
-            :<p></p>
-          }
+                  </div>
+                  <div className='col-6'>
+                    <div className="form-group">
+                      <label style={{fontWeight : 'bold'}}>Area</label>
+                      <input type="text" className="form-control" name="area" onChange={this.setParams}  defaultValue={this.state.area}/>
+                    </div>
+                    <div className="form-group">
+                      <label style={{fontWeight : 'bold'}}>Address</label>
+                      <input type="text" className="form-control" name="address" onChange={this.setParams} defaultValue={this.state.address}/>
+                    </div>
+                    <div className="form-group">
+                      <label style={{fontWeight : 'bold'}}>Sale method</label>
+                      {
+                        this.state.all_sale_method
+                        ? <Select 
+                        options={this.state.all_sale_method}
+                        defaultValue={{value: this.state.sale_method, label: this.state.sale_method}}
+                        isSelected = {true}
+                        isSearchable = {false}
+                        selectValue = {{value: this.state.sale_method, label: this.state.sale_method}}
+                        onChange =  {this.changeSaleMethod }
+                        />
+                        :<p></p>
+                      }
            
          
           
-        </div>
+                    </div>
+                  </div>
+              </div>
+          
+        
+        
+        <div className="form-group" >
+              <label style={{fontWeight : 'bold'}}>Description</label>
+              <textarea type="text" className="form-control" name="description" style={{height:'200px'}} onChange={this.setParams} defaultValue={this.state.description}/>
+            </div>
+
+
+
+        
+        
+       
+       
         <div className="form-group">
           <label style={{fontWeight : 'bold'}}>Position</label>
           {
@@ -331,16 +365,8 @@ edit = () => {
       :<p></p>
     }
         </div>
-        <div className="form-group" >
-          <label style={{fontWeight : 'bold'}}>Description</label>
-          <textarea type="text" className="form-control" name="description" onChange={this.setParams} defaultValue={this.state.description}/>
-
-        
-        
-          
-        </div>
-        
-        <button  className="btn btn-primary" onClick={this.edit}>Submit</button>
+        <ButtonMaterial style={{outline:'none', left:'45%', margin:'10px'}} variant="contained" onClick={this.edit}>Submit</ButtonMaterial>
+       
       
         <Modal show={this.state.success} >
         <Modal.Header >

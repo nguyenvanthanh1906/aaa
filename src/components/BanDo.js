@@ -14,6 +14,9 @@ import {
   useRouteMatch
 } from "react-router-dom";
 import LeftList from "./LeftList";
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Button } from '@material-ui/core';
+import './search.css';
 
 const containerStyle = {
   width: "100%",
@@ -76,7 +79,8 @@ export default class BanDo extends Component {
         libraries={["drawing","geometry"]}
       >
         <div style={{position:"relative",top:"75px",zIndex:"1",width:'50px'}}>
-          <button className="btn btn-danger" onClick={() => this.deletePoly()}>Delete</button>
+      <Button variant="contained" color="error"  style={{marginLeft:'5px', paddingTop:'2px',paddingBottom:'2px',paddingRight:'0px',paddingLeft:'0px', minWidth: '45px',outline:'none'}}   onClick={() => this.deletePoly()}><DeleteIcon />
+      </Button>
        </div>
       <GoogleMap
         id=" ts-map-hero"

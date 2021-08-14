@@ -1,0 +1,11 @@
+a:hover {
+    text-decoration: none;
+}
+.noUi-connect {
+    background: #1976d2;
+}
+#upload-photo {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+ }
