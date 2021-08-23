@@ -5,6 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 import instance from './instance';
 import { getPusher } from '../pusher';
+import Avatar from '@material-ui/core/Avatar';
 
 export default class Menu extends Component {
 
@@ -51,21 +52,43 @@ export default class Menu extends Component {
             </button>
             <div className="collapse navbar-collapse" id="navbarResponsive">
               <ul className="navbar-nav ml-auto">
-                <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{ pathname: "/home" }}  >Home</Link></li>
-                <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/home/map">Map</a></li>
-                <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{ pathname: "/home/profile/" + localStorage.user }}  >Profile</Link></li>
+                <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{ pathname: "/home" }}  >Trang chủ</Link></li>
+                <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/home/map">Bản đồ</a></li>
                 {(localStorage.role === 'company')
-                  ? <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{ pathname: "/home/create" }}  >Create</Link></li>
+                  ? <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{ pathname: "/home/create" }}  >Tạo bài</Link></li>
                   : <p></p>}
                 {(localStorage.role === 'company')
-                  ? <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{ pathname: "/home/media" }}  >Media</Link></li>
+                  ? <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to={{ pathname: "/home/media" }}  >Bộ sưu tập</Link></li>
                   : <p></p>}
                 {(localStorage.role === 'company')
-                  ? <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onClick={this.properties} style={{ cursor: 'pointer' }}  >Properties</a></li>
+                  ? <li className="nav-item mx-0 mx-lg-1"><a className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" onClick={this.properties} style={{ cursor: 'pointer' }}  >Bài viết</a></li>
                   : <p></p>}
-
-                <li className="nav-item mx-0 mx-lg-1"><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" to="/login" onClick={this.logout}>Logout</Link></li>
+              
+               
+                      
+                   
+               
+                
               </ul>
+               <div className="dropdown" style={{  marginLeft:'100px'}}>
+                    
+                      <div  className="btn" data-toggle="dropdown" style={{padding:'0',  marginRight:'100px'}}>
+                     
+                        <Avatar
+                          alt=""
+                          src=""
+                          sx={{ width: 40, height: 40 }}
+                        />
+                      </div>
+                   
+                    <div className="dropdown-menu">
+                     <div style={{marginTop:'5px', marginBottom:'5px'}}><Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger " style={{paddingTop:'10px'}} to="/login" onClick={this.logout}>Đăng xuất</Link></div>
+                     <hr style={{width:'70%',textAlign:'left',margin:'auto', opacity:'50%', backgroundColor:'gray', borderWidth:'1px'}}></hr>
+                     <div style={{marginTop:'5px', marginBottom:'5px'}}> <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style={{paddingTop:'10px'}} to={{ pathname: "/home/profile/" + localStorage.user }}  >Cá nhân</Link></div>
+                     <hr style={{width:'70%',textAlign:'left',margin:'auto', opacity:'50%', backgroundColor:'gray', borderWidth:'1px'}}></hr>
+                     <div style={{marginTop:'5px', marginBottom:'5px'}}> <Link className="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" style={{paddingTop:'10px'}} to={{ pathname: "/home/bookmarks/per_page=10/page=1/sort_by=-created_at"}}  >Đã lưu</Link></div>
+                    </div>
+                  </div>
             </div>
           </div>
         </nav>

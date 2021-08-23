@@ -12,6 +12,7 @@ export default class Register extends Component {
            "username" : "",
            "password" : "",
            "confirm" : "",
+           "email" : "",
            fail : false,
            success : false
         }
@@ -47,7 +48,7 @@ export default class Register extends Component {
         }
     }
     register = () => {
-        instance.post("api/v1/auth/sign-up", {"username": this.state.username,"password": this.state.password})
+        instance.post("api/v1/auth/sign-up", {"username": this.state.username,"password": this.state.password,"email": this.state.email})
           .then(res => { 
             if (res.status == 200) {
             
@@ -78,6 +79,10 @@ export default class Register extends Component {
                       <div className="form-label-group">
                         <input type="text" id="inputUser" className="form-control" name="username" placeholder="username" required autofocus onChange={this.setParams}/>
                         <label htmlFor="inputUser">User name</label>
+                      </div>
+                      <div className="form-label-group">
+                        <input type="text" id="inputEmail" className="form-control" name="email" placeholder="email" required autofocus onChange={this.setParams}/>
+                        <label htmlFor="inputEmail">Email</label>
                       </div>
                       <div className="form-label-group">
                         <input type="password" id="inputPassword" className="form-control" name="password" placeholder="password" required onChange={this.setParams}/>

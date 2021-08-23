@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import CardProperty from './CardProperty';
 import instance from './instance';
 import ButtonPage from './ButtonPage';
+import BookmarkRemoveIcon from '@material-ui/icons/BookmarkRemove';
 
-export default class AllProperty extends Component {
+export default class AllBookmarks extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -20,16 +21,10 @@ export default class AllProperty extends Component {
        
      
             params = {
-                username : this.props.username,
-                search : this.props.search,
-                sale_method : this.props.sale_method,
-                sort_by : this.state.sort_by,
-                min_price : this.props.min_price,
-                max_price : this.props.max_price,
-                min_area : this.props.min_area,
-                max_area : this.props.max_area,
+                
                 per_page : this.props.per_page,
-                page : this.props.page
+                page : this.props.page,
+                sort_by : this.state.sort_by,
             }
             
        for (var propName in params) {
@@ -38,10 +33,10 @@ export default class AllProperty extends Component {
     }
   }
        console.log(params)
-        instance.get("api/v1/properties", {
+        instance.get("api/v1/bookmarks", {
             params : params
         })
-            .then(res => { 
+            .then(res => { console.log(res.data)
                 var total = []
                 for(let i =1 ; i <= res.data.last_page; i++)
                 {
@@ -59,21 +54,14 @@ export default class AllProperty extends Component {
             })
            
             .catch(error => {
-              console.log('error', error.res)
-              alert("fail")
+              
+              alert("fail1")
             }); 
     }
     goPage = (p,pe) => {
         var params = null;
-        params = {
-            username : this.props.username,
-            search : this.props.search,
-            sale_method : this.props.sale_method,
+        params = {   
             sort_by : this.state.sort_by,
-            min_price : this.props.min_price,
-            max_price : this.props.max_price,
-            min_area : this.props.min_area,
-            max_area : this.props.max_area,
             per_page : pe,
             page : p
         }
@@ -82,7 +70,7 @@ export default class AllProperty extends Component {
               delete params[propName];
             }
           }
-        instance.get("api/v1/properties", {
+        instance.get("api/v1/bookmarks", {
             params: params
         })
             .then(res => { 
@@ -94,7 +82,7 @@ export default class AllProperty extends Component {
                 }
                 
                this.setState({
-                   all_properties : res.data.result,
+                    all_properties : res.data.result,
                     last_page : res.data.last_page,
                     total_page : total,
                     current_page : this.props.page,
@@ -149,14 +137,9 @@ export default class AllProperty extends Component {
         },() => {
             var params = null;
             params = {
-                username : this.props.username,
-                search : this.props.search,
-                sale_method : this.props.sale_method,
+               
                 sort_by : this.state.sort_by,
-                min_price : this.props.min_price,
-                max_price : this.props.max_price,
-                min_area : this.props.min_area,
-                max_area : this.props.max_area,
+            
                 per_page : this.props.per_page,
                 page : this.props.page
             }
@@ -165,7 +148,7 @@ export default class AllProperty extends Component {
                   delete params[propName];
                 }
               }
-        instance.get("api/v1/properties", {
+        instance.get("api/v1/bookmarks", {
             params : params
         })
             .then(res => { 
@@ -235,7 +218,7 @@ export default class AllProperty extends Component {
           this.state.all_properties.map((p,index) => {
             return (
              
-                <CardProperty property={p.details} slug={p.slug} deleted_at={p.deleted_at} company={p.company} id={p.id} delete={this.deleteFunction}/>
+                <CardProperty bookmark={'bookmarked'} id={p.id} idBookmark={p.id} property={p.property?.details} slug={p.property?.slug} deleted_at={p.property?.deleted_at} company={p.property?.company} delete={this.deleteFunction}/>
               
             );
           })

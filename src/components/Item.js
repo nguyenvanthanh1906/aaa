@@ -33,7 +33,7 @@ export default class Item extends Component {
     }
    componentDidMount() {
     var property = this.props.property
-console.log(baseURL)
+
     instance.get("api/v1/properties/" + property, {
 
     })
@@ -60,7 +60,7 @@ console.log(baseURL)
        
         .catch(error => {
           console.log('error', error)
-          window.location.replace("/Not Found");
+          window.location.replace("/NotFound");
         }); 
   }
     showProfileCompany = () => {

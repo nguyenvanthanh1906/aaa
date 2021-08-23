@@ -24,6 +24,7 @@ import AllProperty from './AllProperty';
 import CreateMedia from './CreateMedia';
 import Media from './Media';
 import NotFound from './NotFound';
+import AllBookmarks from './AllBookmarks';
 class Main extends Component {
 
 
@@ -306,7 +307,34 @@ class Main extends Component {
             
           }}>
                 
-                </Route >    
+                </Route >   
+
+
+                <Route exact path="/home/bookmarks/per_page=:per_page/page=:page/sort_by=:sort_by" render ={(match) => {
+                  return localStorage.access_token ?
+                  <section className="page-section " id="portfolio">
+                  <div className="container-fluid">
+                    <div className="row ">
+                      <div className="col-lg-12">
+                        <h2 className="page-section-heading text-center text-uppercase text-secondary mb-0">Bài viết đã lưu</h2>
+                        <div className="divider-custom">
+                            <div className="divider-custom-line"></div>
+                            <div className="divider-custom-icon"><i className="fas fa-star"></i></div>
+                            <div className="divider-custom-line"></div>
+                        </div>
+                      </div>
+                     <AllBookmarks page = {match.match.params.page} 
+                     per_page={match.match.params.per_page} 
+                     search={match.match.params.search}
+                     ></AllBookmarks>
+                    
+                    </div>
+                  </div>
+                </section> 
+                  : <Redirect to="/login"></Redirect>
+                }}>
+                </Route > 
+
                 <div>
                     <MessengerCustomerChat
                       pageId="100410325571682"

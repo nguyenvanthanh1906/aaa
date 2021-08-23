@@ -23,6 +23,8 @@ import Register from './components/Register'
 import NotFound from './components/NotFound'
 import { createPusher, getPusher } from './pusher'
 import instance from './components/instance'
+import Activate from './components/Activate'
+import RegisterSuccess from './components/RegisterSuccess'
 
 export default class App extends Component {
 
@@ -71,6 +73,15 @@ export default class App extends Component {
             return localStorage.access_token ? <Redirect to="/home"></Redirect> : <Register></Register>
           }}>
 
+          </Route>
+          <Route path="/activate/:activation_token" render={(match) => {
+            return <Activate activation_token = {match.match.params.activation_token} ></Activate>
+          }}>
+
+          </Route>
+          <Route path="/RegisterSuccess" render={() => {
+            return <RegisterSuccess></RegisterSuccess>
+          }}>
           </Route>
           <Route default  render={() => {
             return <NotFound></NotFound>

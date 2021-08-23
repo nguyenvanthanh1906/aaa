@@ -12,8 +12,15 @@ import axios from 'axios';
 import {
   Redirect
 } from "react-router-dom";
-import { Button, Modal } from 'react-bootstrap';
+import {  Modal } from 'react-bootstrap';
 import instance from './instance';
+import Avatar from '@material-ui/core/Avatar';
+import baseURL from './baseURL'
+import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import { styled } from '@material-ui/core/styles';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import ButtonMaterial from '@material-ui/core/Button';
 
 export default class UserProfile extends Component {
     constructor(props)
@@ -35,6 +42,8 @@ export default class UserProfile extends Component {
            "changeProfile" : false,
            "success" : false,
            "fail" : false,
+           "avatar" :'',
+           "showAvatar": false,
         }
     }
 
@@ -56,7 +65,8 @@ export default class UserProfile extends Component {
                new_full_name : res.data.full_name,
                new_phone : res.data.phone,
                new_email : res.data.email,
-               new_address : res.data.address
+               new_address : res.data.address,
+               avatar : res.data.user.avatar
            })
         
         })
@@ -79,7 +89,8 @@ export default class UserProfile extends Component {
                new_full_name : res.data.full_name,
                new_phone : res.data.phone,
                new_email : res.data.email,
-               new_address : res.data.address
+               new_address : res.data.address,
+               avatar : res.data.user.avatar
            })
         
         })
@@ -288,9 +299,22 @@ export default class UserProfile extends Component {
         )
     }
   }
+  showAvatar = () => {
+    this.setState({
+      showAvatar : !this.state.showAvatar
+    })
+  }
     render() {
         return (
           <div className="container">
+            <div className="row" style={{display:'flex'}}>
+            <Avatar  
+              style={{margin:'auto', cursor:'pointer',border: '3px solid white', boxShadow: '0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2)'}}
+              onClick={this.showAvatar}
+              sx={{ width: 200, height: 200 }} 
+              // src={this.state.avatar ? baseURL+"api/v1/media/"+this.state.avatar.media.slug : '/static/images/avatar/1.jpg'} 
+              />
+            </div>
             <div className="row">
               <div className="col-sm-9 col-md-7 col-lg-8 mx-auto">
                 <div className="card card-signin my-3">
@@ -303,10 +327,10 @@ export default class UserProfile extends Component {
                         <div style={{fontWeight : 'bold'}}>Phone</div>         
                       </div>
                       <div className="col-md-9">
-                        <div>{this.state.full_name}</div>
-                        <div>{this.state.email}</div>
-                        <div>{this.state.address}</div>
-                        <div>{this.state.phone}</div>
+                        <div style={{height:'25%'}}>{this.state.full_name}</div>
+                        <div style={{height:'25%'}}>{this.state.email}</div>
+                        <div style={{height:'25%'}}>{this.state.address}</div>
+                        <div style={{height:'25%'}}>{this.state.phone}</div>
                       </div>
                     </div>
                   </div>
@@ -343,6 +367,29 @@ export default class UserProfile extends Component {
         <Button variant="secondary" onClick={this.handleClose2}>
             Close
           </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={this.state.showAvatar} >
+        <Modal.Header >
+          
+        </Modal.Header>
+        <Modal.Body><img   src={this.state.avatar ? baseURL+"api/v1/media/"+this.state.avatar.media.slug : '/static/images/avatar/1.jpg'} alt="" /></Modal.Body>
+        <Modal.Footer>
+        
+        <div className="row" style={{margin:'auto'}}>
+          <div className="col-md-6">
+          <ButtonGroup disableElevation variant="contained" color="primary" >
+          
+          <ButtonMaterial style={{outline:'none', background:'none', color:'red'}}><label for="upload-photo" style={{marginBottom:'0px'}}>Upload From my computer</label></ButtonMaterial>
+        </ButtonGroup>
+        <input type="file" id="files" name="files" id="upload-photo" multiple onChange={this.setData} ></input>
+          </div>
+          <div className="col-md-6">
+             <Button variant="contained" style={{outline:"none"}} color="error" onClick={this.showAvatar} startIcon={<CloseIcon />}>
+              Đóng
+            </Button>
+          </div>
+        </div>
         </Modal.Footer>
       </Modal>
           </div>

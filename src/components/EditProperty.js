@@ -320,7 +320,7 @@ edit = () => {
         
         <div className="form-group" >
               <label style={{fontWeight : 'bold'}}>Description</label>
-              <textarea type="text" className="form-control" name="description" style={{height:'200px'}} onChange={this.setParams} defaultValue={this.state.description}/>
+              <textarea type="text" className="form-control" name="description" style={{height:'100px'}} onChange={this.setParams} defaultValue={this.state.description}/>
             </div>
 
 
