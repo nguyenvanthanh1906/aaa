@@ -46,6 +46,8 @@ export default class UserProfile extends Component {
             "avatar": '',
             "showAvatar": false,
             "upload": false,
+            "uploadComputer": false,
+            "file": null
         }
     }
 
@@ -316,19 +318,80 @@ export default class UserProfile extends Component {
             upload: !this.state.upload
         })
     }
+    _onChange = (e) => {
+        var file = e.target.files[0];
+        this.setState({
+            imgSrc: URL.createObjectURL(file),
+            uploadComputer: !this.state.uploadComputer,
+            file: file
+        })
+
+    }
+    cancelUploadComputer = () => {
+        this.setState({
+            uploadComputer: !this.state.uploadComputer
+        })
+    }
+    setAvatarComputer = () => {
+
+        const formData = new FormData();
+
+        formData.append(`files`, this.state.file)
+
+
+        instance.post("api/v1/media",
+
+            formData
+        )
+            .then(res => {
+                const slug = []
+                res.data.map((d) => {
+                    slug.push(d.slug)
+                })
+                instance.post("api/v1/avatars", {
+                    "media": slug
+                }, { method: 'POST' })
+                    .then(res1 => {
+
+                    })
+                    .catch(error1 => {
+                        console.log('error', error1)
+                        this.setState({ fail: true })
+                    });
+            })
+
+            .catch(error => {
+                console.log('error', error)
+                this.setState({ fail: true })
+            });
+    }
+    setAvatarMedia = () => {
+        instance.post("api/v1/avatars", {
+            "media": localStorage.avatar
+        }, { method: 'POST' })
+            .then(res1 => {
+
+            })
+            .catch(error1 => {
+                console.log('error', error1)
+                this.setState({ fail: true })
+            });
+    }
+
+
     render() {
         return (
             <div className="container">
                 <div className="row" style={{ display: 'flex' }}>
-                    <div className="" style={{ margin: 'auto', position:'relative' }}>
+                    <div className="" style={{ margin: 'auto', position: 'relative' }}>
                         <Avatar
                             style={{ margin: 'auto', cursor: 'pointer', border: '3px solid white', boxShadow: '0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2)' }}
                             onClick={this.showAvatar}
                             sx={{ width: 200, height: 200 }}
                         // src={this.state.avatar ? baseURL+"api/v1/media/"+this.state.avatar.media.slug : '/static/images/avatar/1.jpg'} 
                         />
-                        <div style={{position:'absolute', top:'75%', right:'8%'}}>
-                            <IconButton style={{ margin: 'auto' , color:"black", background:"#a5a3a3", outline:"none"}} onClick={this.upload}>
+                        <div style={{ position: 'absolute', top: '75%', right: '8%' }}>
+                            <IconButton style={{ margin: 'auto', color: "black", background: "#a5a3a3", outline: "none" }} onClick={this.upload}>
                                 <PhotoCamera />
                             </IconButton>
                         </div>
@@ -368,7 +431,7 @@ export default class UserProfile extends Component {
                 {this.changePasswordForm()}
                 {this.changeProfileForm()}
                 <Modal show={this.state.upload} >
-                    <ModalMediaAvatar avatar={true}></ModalMediaAvatar>
+                    <ModalMediaAvatar setAvatarMediaFunc={this.setAvatarMedia} avatar={true}></ModalMediaAvatar>
                     <Modal.Footer>
                         <Modal.Footer style={{ marginTop: '20px', marginBottom: '20px' }}>
 
@@ -378,7 +441,7 @@ export default class UserProfile extends Component {
 
                                         <Button style={{ outline: 'none', cursor: 'poiter' }}><label for="upload-photo" style={{ marginBottom: '0px' }}>Tải lên</label></Button>
                                     </ButtonGroup>
-                                    <input type="file" id="files" name="files" id="upload-photo" multiple onChange={()=>{alert(1)}} ></input>
+                                    <input type="file" id="files" name="files" id="upload-photo" multiple onChange={this._onChange} ></input>
                                 </div>
                                 <div className="col-md-4">
                                     <Button variant="contained" style={{ outline: "none" }} color="error" onClick={this.cancelUpload} startIcon={<CloseIcon />}>
@@ -430,6 +493,27 @@ export default class UserProfile extends Component {
                         </div>
                     </Modal.Footer>
                 </Modal>
+
+                <Modal show={this.state.uploadComputer} >
+                    <Modal.Header >
+                        <h1 style={{ margin: 'auto' }}>Ảnh đại diện</h1>
+                    </Modal.Header>
+                    <Modal.Body style={{ objectFit: 'cover' }}><img src={this.state.imgSrc} alt="" style={{ objectFit: 'cover', aspectRatio: '1.77', width: '100%' }} /></Modal.Body>
+                    <Modal.Footer style={{ marginTop: '10px', marginBottom: '10px' }}>
+
+                        <div className="row" style={{ margin: 'auto' }}>
+
+                            <Button variant="contained" style={{ outline: "none" }} color="primary" onClick={this.setAvatarComputer} startIcon={<CloseIcon />}>
+                                Đặt
+                            </Button>
+                            <Button variant="contained" style={{ outline: "none" }} color="error" onClick={this.cancelUploadComputer} startIcon={<CloseIcon />}>
+                                Đóng
+                            </Button>
+
+                        </div>
+                    </Modal.Footer>
+                </Modal>
+
             </div>
         );
     }
