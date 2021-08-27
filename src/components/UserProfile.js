@@ -338,8 +338,8 @@ export default class UserProfile extends Component {
 
         formData.append(`files`, this.state.file)
 
-
-        instance.post("api/v1/media",
+        if (this.state.avatar) {
+            instance.post("api/v1/media",
 
             formData
         )
@@ -348,11 +348,11 @@ export default class UserProfile extends Component {
                 res.data.map((d) => {
                     slug.push(d.slug)
                 })
-                instance.post("api/v1/avatars", {
+                instance.patch("api/v1/avatars/" + this.state.avatar.id, {
                     "media": slug
                 }, { method: 'POST' })
                     .then(res1 => {
-
+                        localStorage.urlAvatar = slug
                     })
                     .catch(error1 => {
                         console.log('error', error1)
@@ -364,18 +364,59 @@ export default class UserProfile extends Component {
                 console.log('error', error)
                 this.setState({ fail: true })
             });
+        } else {
+            instance.post("api/v1/media",
+
+                formData
+            )
+                .then(res => {
+                    const slug = []
+                    res.data.map((d) => {
+                        slug.push(d.slug)
+                    })
+                    instance.post("api/v1/avatars", {
+                        "media": slug
+                    }, { method: 'POST' })
+                        .then(res1 => {
+                            localStorage.urlAvatar = slug
+                        })
+                        .catch(error1 => {
+                            console.log('error', error1)
+                            this.setState({ fail: true })
+                        });
+                })
+
+                .catch(error => {
+                    console.log('error', error)
+                    this.setState({ fail: true })
+                });
+        }
+
     }
     setAvatarMedia = () => {
-        instance.post("api/v1/avatars", {
-            "media": localStorage.avatar
-        }, { method: 'POST' })
-            .then(res1 => {
-
-            })
-            .catch(error1 => {
-                console.log('error', error1)
-                this.setState({ fail: true })
-            });
+        if (this.state.avatar) {
+            instance.patch("api/v1/avatars/" + this.state.avatar.id, {
+                "media": localStorage.avatar
+            }, { method: 'POST' })
+                .then(res1 => {
+                    localStorage.urlAvatar = localStorage.avatar
+                })
+                .catch(error1 => {
+                    console.log('error', error1)
+                    this.setState({ fail: true })
+                });
+        } else {
+            instance.post("api/v1/avatars", {
+                "media": localStorage.avatar
+            }, { method: 'POST' })
+                .then(res1 => {
+                    localStorage.urlAvatar = localStorage.avatar
+                })
+                .catch(error1 => {
+                    console.log('error', error1)
+                    this.setState({ fail: true })
+                });
+        }
     }
 
 
@@ -388,7 +429,7 @@ export default class UserProfile extends Component {
                             style={{ margin: 'auto', cursor: 'pointer', border: '3px solid white', boxShadow: '0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2)' }}
                             onClick={this.showAvatar}
                             sx={{ width: 200, height: 200 }}
-                           src={this.state.avatar ? baseURL+"api/v1/media/"+this.state.avatar.media.slug : '/static/images/avatar/1.jpg'} 
+                            src={this.state.avatar ? baseURL + "api/v1/media/" + this.state.avatar.media.slug : '/static/images/avatar/1.jpg'}
                         />
                         <div style={{ position: 'absolute', top: '75%', right: '8%' }}>
                             <IconButton style={{ margin: 'auto', color: "black", background: "#a5a3a3", outline: "none" }} onClick={this.upload}>

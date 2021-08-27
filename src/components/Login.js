@@ -60,7 +60,7 @@ export default class Login extends Component {
                         })
                             .then(res => {
 
-                                localStorage.urlAvatar = res.data.user.avatar.media.slug
+                                localStorage.urlAvatar = res.data.user.avatar?.media.slug
                                 const history = createHashHistory();
                                 history.push("/");
                             })
@@ -74,7 +74,7 @@ export default class Login extends Component {
 
                         })
                             .then(res => {
-                                localStorage.urlAvatar = res.data.user.avatar.media.slug
+                                localStorage.urlAvatar = res.data.user.avatar?.media.slug
                                 const history = createHashHistory();
                                 history.push("/");
                             })
