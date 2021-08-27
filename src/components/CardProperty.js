@@ -141,7 +141,7 @@ export default class CardProperty extends Component {
                 this.state.deleted_at || this.state.delete_bookmark
                 ?
                 
-                <div className="col-md-12 " style={{ opacity:'0.4',marginBottom:'20px', marginTop:'20px', background:'white',border: '0',borderRadius: '3px', boxShadow: '0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2)'}}>
+                <div className="col-md-12 " style={{ opacity:'0.4',marginBottom:'35px', marginTop:'35px', background:'white',border: '0',borderRadius: '3px', boxShadow: '0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2)'}}>
                     <div className='row' >
                         <div className='col-md-5' style={{padding:'0px',marginRight: '30px'}}>
                             <img 
@@ -180,7 +180,7 @@ export default class CardProperty extends Component {
                     </div>
                 </div>
                 :
-                <div className="col-md-12 " style={{marginBottom:'20px', marginTop:'20px', background:'white',border: '0',borderRadius: '3px', boxShadow: '0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2)'}}>
+                <div className="col-md-12 " style={{marginBottom:'35px', marginTop:'35px', background:'white',border: '0',borderRadius: '3px', boxShadow: '0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2)'}}>
                     <div className='row' >
                         <div className='col-md-5' style={{padding:'0px',marginRight: '30px'}}>
                             <img 

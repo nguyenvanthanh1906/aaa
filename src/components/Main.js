@@ -32,7 +32,7 @@ class Main extends Component {
         return (
           
             <Switch>
-              <div>
+              <div >
                 
                 <Menu></Menu>
                 

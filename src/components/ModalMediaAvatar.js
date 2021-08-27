@@ -136,9 +136,9 @@ export default class ModalMediaAvatar extends Component {
                 </div>
                 <Modal show={this.state.showAvatar} >
                     <Modal.Header >
-                        <Modal.Title>Ảnh đại diện</Modal.Title>
+                        <Modal.Title>Ảnh đại diện từ bộ sưu tập</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body><img src={baseURL + "api/v1/media/" + localStorage.avatar} alt="" /></Modal.Body>
+                    <Modal.Body><img style={{ cursor: "pointer", objectFit: 'cover', width: '100%', height: '100%' }} src={baseURL + "api/v1/media/" + localStorage.avatar} alt="" /></Modal.Body>
                     <Modal.Footer>
                         <Button variant="contained" style={{ outline: "none" }} color="primary" onClick={this.props.setAvatarMediaFunc} >
                             Đặt

@@ -6,6 +6,7 @@ import axios from 'axios';
 import instance from './instance';
 import { getPusher } from '../pusher';
 import Avatar from '@material-ui/core/Avatar';
+import baseURL from './baseURL'
 
 export default class Menu extends Component {
 
@@ -76,7 +77,7 @@ export default class Menu extends Component {
                      
                         <Avatar
                           alt=""
-                          src=""
+                          src={localStorage.urlAvatar ? baseURL+"api/v1/media/"+localStorage.urlAvatar : '/static/images/avatar/1.jpg'} 
                           sx={{ width: 40, height: 40 }}
                         />
                       </div>

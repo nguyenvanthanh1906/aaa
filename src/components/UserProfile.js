@@ -388,7 +388,7 @@ export default class UserProfile extends Component {
                             style={{ margin: 'auto', cursor: 'pointer', border: '3px solid white', boxShadow: '0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2)' }}
                             onClick={this.showAvatar}
                             sx={{ width: 200, height: 200 }}
-                        // src={this.state.avatar ? baseURL+"api/v1/media/"+this.state.avatar.media.slug : '/static/images/avatar/1.jpg'} 
+                           src={this.state.avatar ? baseURL+"api/v1/media/"+this.state.avatar.media.slug : '/static/images/avatar/1.jpg'} 
                         />
                         <div style={{ position: 'absolute', top: '75%', right: '8%' }}>
                             <IconButton style={{ margin: 'auto', color: "black", background: "#a5a3a3", outline: "none" }} onClick={this.upload}>
@@ -481,7 +481,7 @@ export default class UserProfile extends Component {
                     <Modal.Header >
 
                     </Modal.Header>
-                    <Modal.Body><img src={this.state.avatar ? baseURL + "api/v1/media/" + this.state.avatar.media.slug : '/static/images/avatar/1.jpg'} alt="" /></Modal.Body>
+                    <Modal.Body><img style={{ cursor: "pointer", objectFit: 'cover', width: '100%', height: '100%' }} src={this.state.avatar ? baseURL + "api/v1/media/" + this.state.avatar.media.slug : '/static/images/avatar/1.jpg'} alt="" /></Modal.Body>
                     <Modal.Footer style={{ marginTop: '20px', marginBottom: '20px' }}>
 
                         <div className="row" style={{ margin: 'auto' }}>
@@ -496,9 +496,9 @@ export default class UserProfile extends Component {
 
                 <Modal show={this.state.uploadComputer} >
                     <Modal.Header >
-                        <h1 style={{ margin: 'auto' }}>Ảnh đại diện</h1>
+                        <h1 style={{ margin: 'auto' }}>Ảnh đại diện từ máy tính</h1>
                     </Modal.Header>
-                    <Modal.Body style={{ objectFit: 'cover' }}><img src={this.state.imgSrc} alt="" style={{ objectFit: 'cover', aspectRatio: '1.77', width: '100%' }} /></Modal.Body>
+                    <Modal.Body style={{ objectFit: 'cover' }}><img style={{ cursor: "pointer", objectFit: 'cover', width: '100%', height: '100%' }} src={this.state.imgSrc} alt="" style={{ objectFit: 'cover', aspectRatio: '1.77', width: '100%' }} /></Modal.Body>
                     <Modal.Footer style={{ marginTop: '10px', marginBottom: '10px' }}>
 
                         <div className="row" style={{ margin: 'auto' }}>
