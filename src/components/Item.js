@@ -29,7 +29,8 @@ export default class Item extends Component {
             "user": "",
             "media": [],
             "area":'',
-            "price":''
+            "price":'',
+            "sale_method":''
         }
     }
     componentDidMount() {
@@ -54,6 +55,7 @@ export default class Item extends Component {
                     media: res.data.details.media,
                     area: res.data.details.area,
                     price: res.data.details.price,
+                    sale_method: res.data.sale_method,
                 })
 
 
@@ -74,39 +76,26 @@ export default class Item extends Component {
         if (index == 0) {
             return (
                 <div className="carousel-item active" key={index}>
-                    <img style={{ borderRadius: '20px', width: "auto", objectFit: 'cover', height: 'auto' }} className="d-block w-100" src={baseURL + "api/v1/media/" + d.slug} alt="" />
+                    <img style={{ borderRadius: '10px', width: "auto", objectFit: 'cover', height: 'auto' }} className="d-block w-100" src={baseURL + "api/v1/media/" + d.slug} alt="" />
                 </div>
             )
         } else {
             return (
                 <div className="carousel-item " key={index}>
-                    <img style={{ borderRadius: '20px', width: "auto", objectFit: 'cover' }} className="d-block w-100" src={baseURL + "api/v1/media/" + d.slug} alt="" />
+                    <img style={{ borderRadius: '10px', width: "auto", objectFit: 'cover' }} className="d-block w-100" src={baseURL + "api/v1/media/" + d.slug} alt="" />
                 </div>
             )
         }
     }
     render = () => {
         return (
-            <div className="container-fluid " style={{ marginTop: '150px' }} >
+            <div className="container " style={{ marginTop: '150px' }} >
                 <div className=" row">
-                    <div className="col-lg-2" >
-                        <div className="container" style={{ marginTop: '550px' }}>
-
-                            <div className="card" style={{ width: '100%' }}>
-                                <img className="card-img-top" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22286%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%230%200%20286%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_1784b427b6e%20text%30%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A14pt%30%7D%30%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_1784b427b6e%22%3E%3Crect%20width%3D%22286%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22107.1953125%22%20y%3D%2296.3%22%3E286x180%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap" />
-                                <div className="card-body">
-                                    <p className="card-title"><i class="fas fa-envelope" style={{ fontSize: '1rem', marginRight: '10px', color: '#1abc9c' }}></i>abc@gmail.com</p>
-                                    <p className="card-text"><i class="fas fa-phone" style={{ fontSize: '1rem', marginRight: '10px', color: '#1abc9c' }}></i>0522812101</p>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div className="col-lg-7" style={{ width: '60%' }}>
+                    
+                    <div className="col-lg-12" style={{ width: '60%' }}>
                         <div id="carouselExampleIndicators" className="carousel slide " data-ride="carousel"  >
 
-                            <div className="carousel-inner" style={{ borderRadius: '20px', width: '100%', height: '500px' }}>
+                            <div className="carousel-inner" style={{ borderRadius: '10px', width: '100%', height: '500px' }}>
                                 {
                                     this.state.media.map((d, index) => {
                                         return (
@@ -150,7 +139,7 @@ export default class Item extends Component {
                                 <div className="col-lg-4">
 
                                     <div ><i className="fas fa-bed" style={{ fontSize: '2.5rem', marginRight: '10px', color: '#1abc9c' }}></i>Phòng ngủ</div>
-                                    <div  ><h4>3 phòng ngủ</h4></div>
+                                    <div  ><h4>Đang cập nhật...</h4></div>
 
                                 </div>
 
@@ -175,7 +164,7 @@ export default class Item extends Component {
                             <div style={{ borderRadius: '10px', boxShadow: '0 0.125rem 0.3125rem rgb(0 0 0 / 30%)', backgroundColor: 'white', fontFamily: '"Roboto", sans-serif' }} className="container">
                                 <div className="row">
                                     <div className="col-lg-3" style={{ fontWeight: 'bold', margin: '13px' }}>Loại tin đăng</div>
-                                    <div className="col-lg-7" style={{ margin: '13px' }}>Tin bán nhà</div>
+                                    <div className="col-lg-7" style={{ margin: '13px' }}>{this.state.sale_method}</div>
                                 </div>
                                 <div className="row">
                                     <div className="col-lg-3" style={{ fontWeight: 'bold', margin: '13px' }}>Mặt tiền</div>
@@ -257,21 +246,7 @@ export default class Item extends Component {
                         }
                         <br></br>
                         <br></br>
-                    </div> <div className='col-lg-3 vertical-menu' style={{}}>
-                        <div>
-                            <h5><i class="fas fa-map-marker-alt" style={{ fontSize: '2.5rem', marginRight: '10px', color: '#1abc9c' }}></i>Bất động sản lân cận</h5>
-                        </div>
-                        <div className='' style={{ width: '80%', borderRadius: '10px', boxShadow: '0 0.125rem 0.3125rem rgb(0 0 0 / 30%)', backgroundColor: 'white', fontFamily: '"Roboto", sans-serif' }}>
-                            <a href="#">Separated link</a>
-                            <a href="#">Separated link</a>
-                            <a href="#">Separated link</a>
-                            <a href="#">Separated link</a>
-                            <a href="#">Separated link</a>
-                            <a href="#">Separated link</a>
-                            <a href="#">Separated link</a>
-                        </div>
-
-                    </div>
+                    </div> 
 
                     <br />
                 </div>

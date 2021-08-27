@@ -353,6 +353,7 @@ export default class UserProfile extends Component {
                 }, { method: 'POST' })
                     .then(res1 => {
                         localStorage.urlAvatar = slug
+                        window.location.reload()
                     })
                     .catch(error1 => {
                         console.log('error', error1)
@@ -379,6 +380,7 @@ export default class UserProfile extends Component {
                     }, { method: 'POST' })
                         .then(res1 => {
                             localStorage.urlAvatar = slug
+                            window.location.reload()
                         })
                         .catch(error1 => {
                             console.log('error', error1)
@@ -400,6 +402,7 @@ export default class UserProfile extends Component {
             }, { method: 'POST' })
                 .then(res1 => {
                     localStorage.urlAvatar = localStorage.avatar
+                    window.location.reload()
                 })
                 .catch(error1 => {
                     console.log('error', error1)
@@ -411,6 +414,7 @@ export default class UserProfile extends Component {
             }, { method: 'POST' })
                 .then(res1 => {
                     localStorage.urlAvatar = localStorage.avatar
+                    window.location.reload()
                 })
                 .catch(error1 => {
                     console.log('error', error1)
