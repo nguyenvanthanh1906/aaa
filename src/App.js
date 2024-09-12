@@ -20,49 +20,73 @@ import {
   useRouteMatch
 } from "react-router-dom";
 import Register from './components/Register'
+import NotFound from './components/NotFound'
+import { createPusher, getPusher } from './pusher'
+import instance from './components/instance'
+import Activate from './components/Activate'
+import RegisterSuccess from './components/RegisterSuccess'
 
 export default class App extends Component {
-  
+
   componentWillMount() {
-    if (localStorage.expires_at < (Date.now())){
+    if (localStorage.expires_at < (Date.now())) {
       localStorage.clear()
     }
+
+    if (localStorage.getItem('access_token')) {
+      instance.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem("access_token")
+      if (getPusher() && ['connected', 'connecting'].includes(getPusher().connection.state)) return
+
+      createPusher()
+    }
   }
-  
-  
-  
+
   render() {
-    
-    return ( 
+
+    return (
       <Router>
         <Switch>
-        <Route
-    exact
-    path="/"
-    render={() => {
-        return (
-            
-            <Redirect to="/home" /> 
-            
-        )
-    }}
-/>
-          <Route path="/home" render ={() => {
+          <Route
+            exact
+            path="/"
+            render={() => {
+              return (
+
+                <Redirect to="/home" />
+
+              )
+            }}
+          />
+          <Route path="/home" render={() => {
             return localStorage.access_token ? <Main></Main> : <Redirect to="/login"></Redirect>
           }}>
-            
+
           </Route>
-          
-          
-          <Route  path="/login" render ={() => {
-           return localStorage.access_token ? <Redirect to="/home"></Redirect> : <Login></Login>
+
+
+          <Route path="/login" render={() => {
+            return localStorage.access_token ? <Redirect to="/home"></Redirect> : <Login></Login>
           }}>
-            
+
           </Route>
-          <Route  path="/register" render ={() => {
-           return localStorage.access_token ? <Redirect to="/home"></Redirect> : <Register></Register>
+          <Route path="/register" render={() => {
+            return localStorage.access_token ? <Redirect to="/home"></Redirect> : <Register></Register>
           }}>
-            
+
+          </Route>
+          <Route path="/activate/:activation_token" render={(match) => {
+            return <Activate activation_token = {match.match.params.activation_token} ></Activate>
+          }}>
+
+          </Route>
+          <Route path="/RegisterSuccess" render={() => {
+            return <RegisterSuccess></RegisterSuccess>
+          }}>
+          </Route>
+          <Route default  render={() => {
+            return <NotFound></NotFound>
+          }}>
+
           </Route>
         </Switch>
       </Router>

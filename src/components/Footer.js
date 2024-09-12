@@ -11,9 +11,9 @@ export default class Footer extends Component {
             <div className="col-lg-4 mb-5 mb-lg-0">
               <h4 className="text-uppercase mb-4">Location</h4>
               <p className="lead mb-0">
-                2215 John Daniel Drive
+                1 Nguyễn Văn Linh
                 <br />
-                Clark, MO 65243
+                Đà Nẵng, Việt Nam
               </p>
             </div>
             {/* Footer Social Icons*/}
@@ -26,10 +26,10 @@ export default class Footer extends Component {
             </div>
             {/* Footer About Text*/}
             <div className="col-lg-4">
-              <h4 className="text-uppercase mb-4">About Freelancer</h4>
+              <h4 className="text-uppercase mb-4">About QuadaLand</h4>
               <p className="lead mb-0">
                 Freelance is a free to use, MIT licensed Bootstrap theme created by
-                <a href="http://startbootstrap.com">Start Bootstrap</a>
+                <a href="http://startbootstrap.com">Be your home better</a>
                 .
               </p>
             </div>
